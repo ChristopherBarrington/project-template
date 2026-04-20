@@ -1,0 +1,6 @@
+# ignore any file/path starting with underscore
+**/_*
+
+# ignore any secrets (environment variables) files
+**/.env
+**/.secrets
