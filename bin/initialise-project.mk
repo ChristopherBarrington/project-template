@@ -1,5 +1,5 @@
 
-.PHONY:
+.PHONY: clean clean-babs-stp clean-share-www clean-share-geo clean-share-outputs clean-active-projects-link
 SHELL  := /bin/bash
 .SILENT:
 
@@ -35,25 +35,44 @@ $(babs_stp_submodule_path):
 # 	&& (cd $_ && git sparse-checkout set --no-cone /.babs babs/docs/) \
 # 	&& git commit --quiet --all --message "added BABS-STP submodule from hash: $(project_hash)"
 
+clean-babs-stp:
+	echo "[WARN] removing BABS-STP submodule"
+	rm --recursive --force $(babs_stp_submodule_path)
+
 # -- make a shared directory for www outputs: html and shiny
-share/www:
+share_www_path = share/www
+$(share_www_path):
 	echo "[INFO] making shared www directory"
-	mkdir --parents share/www/{html,shiny} \
-	&& ln --symbolic --force --no-dereference $(babs_www_path)/html/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/ share/www/html/dev \
-	&& ln --symbolic --force --no-dereference $(babs_www_path)/html/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/ share/www/html/projects \
-	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/ share/www/shiny/dev \
-	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/ share/www/shiny/projects
+	mkdir --parents $(share_www_path)/{html,shiny} \
+	&& ln --symbolic --force --no-dereference $(babs_www_path)/html/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/       $(share_www_path)/html/dev \
+	&& ln --symbolic --force --no-dereference $(babs_www_path)/html/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/  $(share_www_path)/html/projects \
+	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/      $(share_www_path)/shiny/dev \
+	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/ $(share_www_path)/shiny/projects
+
+clean-$(share_www_path):
+	echo "[WARN] removing shared www directory"
+	rm --recursive --force $(share_www_path)
 
 # -- make a shared directory for geo outputs
-share/geo:
+share_geo_path = share/geo
+$(share_geo_path):
 	echo "[INFO] making shared geo directory"
-	mkdir --parents share/geo
+	mkdir --parents $(share_geo_path)
+
+clean-$(share_geo_path):
+	echo "[WARN] removing shared geo directory"
+	rm --recursive --force $(share_geo_path)
 
 # -- make a link to the babs outputs directory
-share/outputs:
+share_outputs_path = share/outputs
+$(share_outputs_path):
 	echo "[INFO] linking to babs outputs directory"
 	mkdir --parents share \
-	&& ln --symbolic --force --no-dereference $(babs_outputs_path)/$(lab)/$(scientist)/$(user_long)/$(project)/ share/outputs
+	&& ln --symbolic --force --no-dereference $(babs_outputs_path)/$(lab)/$(scientist)/$(user_long)/$(project)/ $(share_outputs_path)
+
+clean-$(share_outputs_path):
+	echo "[WARN] removing shared outputs link"
+	rm --force $(share_outputs_path)
 
 # -- make a link to the active-projects directory
 active_projects_link_path = $(active_projects_path)/$(active_project_name)
@@ -62,7 +81,23 @@ $(active_projects_link_path):
 	echo "[INFO] linking to $(active_project_name) in active-projects directory"
 	mkdir --parents $(dir $(active_projects_link_path)) \
 	&& rm --force $(active_projects_link_path) \
-	&& ln --symbolic $(project_path) $(active_projects_link_path)
+
+clean-active-projects-link:
+	echo "[WARN] removing active-projects link"
+	rm --force $(active_projects_link_path)
 
 # --- alias to make a (typical) babs/genomics project
-babs: share/www share/geo share/outputs active-projects-link babs-stp
+babs: \
+	share/www \
+	share/geo \
+	share/outputs \
+	active-projects-link \
+	babs-stp
+
+# -- alias to clean up after all targets
+clean: \
+	clean-babs-stp \
+	clean-$(share_www_path) \
+	clean-$(share_geo_path) \
+	clean-$(share_outputs_path) \
+	clean-active-projects-link
