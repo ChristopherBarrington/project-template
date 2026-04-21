@@ -1,9 +1,16 @@
 
-.PHONY: clean clean-babs-stp clean-share-www clean-share-geo clean-share-outputs clean-active-projects-link
-SHELL  := /bin/bash
-.SILENT:
+#
+# makefile to initialise a project directory
+#
 
-# -- variables with defaults that can be overridden by cli arguments, e.g. `make babs-stp project_hash=abc123`
+## ---- make configuration
+
+.PHONY   : clean clean-babs-stp clean-share-www clean-share-geo clean-share-outputs clean-active-projects-link
+SHELL    := /bin/bash
+.ONESHELL:
+.SILENT  :
+
+## ---- variables with defaults that can be overridden by cli arguments, e.g. `make babs-stp project_hash=abc123`
 
 user_long      ?= christopher.barrington
 user_short     ?= barrinc
@@ -18,86 +25,158 @@ project_hash ?= $(shell basename $(project_path))
 
 active_project_name  ?= $(project)
 active_projects_path ?= $(babs_root_path)/working/$(user_short)/active_projects
+babs_inputs_path     ?= $(babs_root_path)/inputs
 babs_outputs_path    ?= $(babs_root_path)/outputs
 babs_www_path        ?= $(babs_root_path)/www
 
-# -- default target if no target specified
+## ---- default target if no target specified
+
 default:
 	echo "[ERROR] no target(s) specified. Please specify a target"
 
-# -- make a submodule from the babs-stp repository
+## ---- babs-stp repository submodule
+
 babs_stp_submodule_path = docs/babs-stp
 babs-stp: $(babs_stp_submodule_path)
+
 $(babs_stp_submodule_path):
 	echo "[INFO] adding BABS-STP submodule from hash: $(project_hash)"
-	mkdir --parents $(babs_stp_submodule_path)
-# 	git submodule add --quiet --depth 1 git@github.com:babs-stp/$(project_hash).git $(babs_stp_submodule_path) \
-# 	&& (cd $_ && git sparse-checkout set --no-cone /.babs babs/docs/) \
-# 	&& git commit --quiet --all --message "added BABS-STP submodule from hash: $(project_hash)"
+	mkdir --parents $@
+ 	git submodule add --quiet --depth 1 git@github.com:babs-stp/$(project_hash).git $@ \
+ 	&& (cd $_ && git sparse-checkout set --no-cone /.babs babs/docs/) \
+ 	&& git commit --quiet --all --message "added BABS-STP submodule from hash: $(project_hash)"
 
 clean-babs-stp:
 	echo "[WARN] removing BABS-STP submodule"
 	rm --recursive --force $(babs_stp_submodule_path)
 
+## ---- share directory 
+
 # -- make a shared directory for www outputs: html and shiny
+
 share_www_path = share/www
+
 $(share_www_path):
 	echo "[INFO] making shared www directory"
-	mkdir --parents $(share_www_path)/{html,shiny} \
-	&& ln --symbolic --force --no-dereference $(babs_www_path)/html/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/       $(share_www_path)/html/dev \
-	&& ln --symbolic --force --no-dereference $(babs_www_path)/html/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/  $(share_www_path)/html/projects \
-	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/      $(share_www_path)/shiny/dev \
-	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/ $(share_www_path)/shiny/projects
+	mkdir --parents $@/{html,shiny} \
+	&& ln --symbolic --force --no-dereference $(babs_www_path)/html/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/       $@/html/dev \
+	&& ln --symbolic --force --no-dereference $(babs_www_path)/html/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/  $@/html/projects \
+	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/      $@/shiny/dev \
+	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/ $@/shiny/projects
 
 clean-$(share_www_path):
-	echo "[WARN] removing shared www directory"
+	echo "[WARN] removing $(share_www_path) directory"
 	rm --recursive --force $(share_www_path)
 
 # -- make a shared directory for geo outputs
+
 share_geo_path = share/geo
+
 $(share_geo_path):
 	echo "[INFO] making shared geo directory"
-	mkdir --parents $(share_geo_path)
+	mkdir --parents $@
 
 clean-$(share_geo_path):
-	echo "[WARN] removing shared geo directory"
+	echo "[WARN] removing $(share_geo_path) directory"
 	rm --recursive --force $(share_geo_path)
 
 # -- make a link to the babs outputs directory
+
 share_outputs_path = share/outputs
+
 $(share_outputs_path):
 	echo "[INFO] linking to babs outputs directory"
-	mkdir --parents share \
-	&& ln --symbolic --force --no-dereference $(babs_outputs_path)/$(lab)/$(scientist)/$(user_long)/$(project)/ $(share_outputs_path)
+	mkdir --parents $(dir $@) \
+	&& ln --symbolic --force --no-dereference $(babs_outputs_path)/$(lab)/$(scientist)/$(user_long)/$(project)/ $@
 
 clean-$(share_outputs_path):
-	echo "[WARN] removing shared outputs link"
+	echo "[WARN] removing $(share_outputs_path) link"
 	rm --force $(share_outputs_path)
 
-# -- make a link to the active-projects directory
+## ---- make a link to the active-projects directory
+
 active_projects_link_path = $(active_projects_path)/$(active_project_name)
 active-projects-link: $(active_projects_link_path)
+
 $(active_projects_link_path):
 	echo "[INFO] linking to $(active_project_name) in active-projects directory"
-	mkdir --parents $(dir $(active_projects_link_path)) \
-	&& rm --force $(active_projects_link_path) \
+	mkdir --parents $(dir $@) \
+	&& ln --symbolic --force --no-dereference $(project_path) $@
 
 clean-active-projects-link:
 	echo "[WARN] removing active-projects link"
 	rm --force $(active_projects_link_path)
 
-# --- alias to make a (typical) babs/genomics project
+## ---- data directory
+
+# -- make a link to babs inputs
+
+data_inputs_path = data/inputs
+
+$(data_inputs_path):
+	echo "[INFO] linking to babs inputs directory"
+	mkdir --parents data \
+	&& ln --symbolic --force --no-dereference $(babs_inputs_path)/$(lab)/$(user_long)/$(scientist)/$(project)/ $@
+
+clean-$(data_inputs_path):
+	echo "[WARN] removing $(data_inputs_path) link"
+	rm --force $(data_inputs_path)
+
+# -- link to genomics' primary_data
+
+data_primary_data_path = data/primary_data
+babs_manifest_path = $(babs_stp_submodule_path)/.babs
+
+$(data_primary_data_path):
+	if [[ -f "$(babs_manifest_path)" ]]; then
+		project_lims="$$(yq eval '.[0].Lims' "$(babs_manifest_path)" | sed 's/asf-//g')"
+	else
+		project_lims=undef
+	fi
+	if [[ "$$project_lims" == "undef" ]]; then
+		echo "[WARN] project_lims=undef; skipping $@ link"
+		exit 0
+	fi
+	echo "[INFO] linking to babs inputs sequencing data directory ($$project_lims)"
+	mkdir --parents data
+	ln --symbolic --force --no-dereference "$(babs_inputs_path)/sequencing/data/$(lab)/$(scientist)/$$project_lims/primary_data/" "$(data_primary_data_path)"
+
+clean-$(data_primary_data_path):
+	echo "[WARN] removing $(data_primary_data_path) link"
+	rm --force $(data_primary_data_path)
+
+## --- define aliases/helpers for typical use cases
+
+# -- alias to make a (typical) babs/genomics project
+
 babs: \
+	babs-stp \
+	data/inputs \
+	data/primary_data \
 	share/www \
 	share/geo \
 	share/outputs \
-	active-projects-link \
-	babs-stp
+	active-projects-link
 
-# -- alias to clean up after all targets
-clean: \
-	clean-babs-stp \
+# -- aliases to clean up after all targets
+
+clean-data: \
+	clean-$(data_inputs_path) \
+	clean-$(data_primary_data_path)
+
+clean-share: \
 	clean-$(share_www_path) \
 	clean-$(share_geo_path) \
-	clean-$(share_outputs_path) \
+	clean-$(share_outputs_path)
+
+clean: \
+	clean-babs-stp \
+	clean-data \
+	clean-share \
 	clean-active-projects-link
+
+# -- helper target to print variable values, e.g. `make print-project_hash`
+
+print-%:
+	echo "$($*)"
+
