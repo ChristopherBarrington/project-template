@@ -39,9 +39,11 @@ babs_www_path        ?= $(babs_root_path)/www
 default:
 	echo "[ERROR] no target(s) specified. Please specify a target"
 
-## ---- babs-stp repository submodule
+## ---- resources directory
 
-babs_stp_submodule_path = docs/babs-stp
+# -- babs-stp repository submodule
+
+babs_stp_submodule_path = resources/github/babs-stp/$(project_hash)
 babs-stp: $(babs_stp_submodule_path)
 
 $(babs_stp_submodule_path):
@@ -60,7 +62,6 @@ clean-babs-stp:
 		echo "[WARN] BABS-STP submodule does not exist, skipping removal";
 	fi
 
-## ---- resources directory
 
 # -- ChristopherBarrington/babs-project repository submodule
 
@@ -212,11 +213,15 @@ clean-share: \
 	clean-$(share_geo_path) \
 	clean-$(share_outputs_path)
 
+clean-resources: \
+	clean-babs-project
+
 clean: \
+	clean-active-projects-link \
 	clean-babs-stp \
 	clean-data \
-	clean-share \
-	clean-active-projects-link
+	clean-resources \
+	clean-share
 
 # -- helper target to print variable values, e.g. `make print-project_hash`
 
