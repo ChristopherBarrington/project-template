@@ -5,6 +5,8 @@
 
 # TODO: make clean- targets more generic, using clean-% perhaps
 # TODO: creating targets should depend on clean- targets
+# TODO: stop tracking REAMDME (etc) once created to avoid updating the template project repository
+# TODO: add remotes for push and pull to different repositories (template and analysis)
 
 ## ---- make configuration
 
@@ -150,8 +152,9 @@ clean-$(data_primary_data_path):
 
 ## ---- configure git repository
 
-# -- add remotes: allow update via pull from project repository and push/pull from analysis repository
-### TODO
+# -- add remotes
+#    allow updates via pull from project template repository
+#    allow push/pull from analysis repository
 
 ## --- define aliases/helpers for typical use cases
 
