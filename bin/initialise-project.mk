@@ -145,6 +145,11 @@ clean-$(data_primary_data_path):
 	echo "[WARN] removing $(data_primary_data_path) link"
 	rm --force $(data_primary_data_path)
 
+## ---- configure git repository
+
+# -- add remotes: allow update via pull from project repository and push/pull from analysis repository
+### TODO
+
 ## --- define aliases/helpers for typical use cases
 
 # -- alias to make a (typical) babs/genomics project
@@ -153,8 +158,12 @@ babs: \
 	babs-stp \
 	data/inputs \
 	data/primary_data \
-	share/www \
 	share/geo \
+	share/outputs \
+	active-projects-link
+
+non-genomics: \
+	data/inputs \
 	share/outputs \
 	active-projects-link
 
