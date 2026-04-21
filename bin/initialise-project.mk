@@ -6,11 +6,10 @@
 # TODO: make clean- targets more generic, using clean-% perhaps
 # TODO: creating targets should depend on clean- targets
 # TODO: stop tracking REAMDME (etc) once created to avoid updating the template project repository
-# TODO: add remotes for push and pull to different repositories (template and analysis)
 
 ## ---- make configuration
 
-.PHONY   : clean clean-babs-stp clean-share-www clean-share-geo clean-share-outputs clean-active-projects-link
+.PHONY   : default babs non-genomics clean clean-babs-stp clean-babs-project clean-data clean-share clean-resources clean-active-projects-link print-%
 SHELL    := /bin/bash
 .ONESHELL:
 .SILENT  :
@@ -61,7 +60,6 @@ clean-babs-stp:
 	else
 		echo "[WARN] BABS-STP submodule does not exist, skipping removal";
 	fi
-
 
 # -- ChristopherBarrington/babs-project repository submodule
 
@@ -179,17 +177,12 @@ clean-$(data_primary_data_path):
 	echo "[INFO] removing $(data_primary_data_path) link"
 	rm --force $(data_primary_data_path)
 
-## ---- configure git repository
-
-# -- add remotes
-#    allow updates via pull from project template repository
-#    allow push/pull from analysis repository
-
 ## --- define aliases/helpers for typical use cases
 
 # -- alias to make a (typical) babs/genomics project
 
 babs: \
+	babs-project \
 	babs-stp \
 	data/inputs \
 	data/primary_data \
@@ -198,6 +191,7 @@ babs: \
 	active-projects-link
 
 non-genomics: \
+	babs-project \
 	data/inputs \
 	share/outputs \
 	active-projects-link
@@ -214,11 +208,11 @@ clean-share: \
 	clean-$(share_outputs_path)
 
 clean-resources: \
+	clean-babs-stp \
 	clean-babs-project
 
 clean: \
 	clean-active-projects-link \
-	clean-babs-stp \
 	clean-data \
 	clean-resources \
 	clean-share
