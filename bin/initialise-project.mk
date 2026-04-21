@@ -3,6 +3,9 @@
 # makefile to initialise a project directory
 #
 
+# TODO: make clean- targets more generic, using clean-% perhaps
+# TODO: creating targets should depend on clean- targets
+
 ## ---- make configuration
 
 .PHONY   : clean clean-babs-stp clean-share-www clean-share-geo clean-share-outputs clean-active-projects-link
