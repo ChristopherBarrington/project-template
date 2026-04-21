@@ -46,14 +46,41 @@ babs-stp: $(babs_stp_submodule_path)
 
 $(babs_stp_submodule_path):
 	echo "[INFO] adding BABS-STP submodule from hash: $(project_hash)"
-	mkdir --parents $@
- 	git submodule add --quiet --depth 1 git@github.com:babs-stp/$(project_hash).git $@ \
- 	&& (cd $_ && git sparse-checkout set --no-cone /.babs babs/docs/) \
- 	&& git commit --quiet --all --message "added BABS-STP submodule from hash: $(project_hash)"
+	git submodule add --quiet --depth 1 git@github.com:babs-stp/$(project_hash).git $@ \
+	&& (cd $_ && git sparse-checkout set --no-cone /.babs babs/docs/) \
+	&& git commit --quiet --all --message "added BABS-STP submodule from hash: $(project_hash)"
 
 clean-babs-stp:
-	echo "[WARN] removing BABS-STP submodule"
-	rm --recursive --force $(babs_stp_submodule_path)
+	if [[ -d "$(babs_stp_submodule_path)" ]]; then
+		echo "[INFO] removing BABS-STP submodule";
+		git submodule deinit --quiet --force $(babs_stp_submodule_path)
+		git rm --quiet --force $(babs_stp_submodule_path)
+		git commit --quiet --all --message "removed BABS-STP submodule";
+	else
+		echo "[WARN] BABS-STP submodule does not exist, skipping removal";
+	fi
+
+## ---- resources directory
+
+# -- ChristopherBarrington/babs-project repository submodule
+
+babs_project_submodule_path = resources/github/ChristopherBarrington/babs-project
+babs-project: $(babs_project_submodule_path)
+
+$(babs_project_submodule_path):
+	echo "[INFO] adding ChristopherBarrington/babs-project submodule"
+	git submodule add --quiet --depth 1 git@github.com:ChristopherBarrington/babs-project.git $@ \
+	&& (cd $@ && git sparse-checkout set --no-cone /.github) \
+	&& git commit --quiet --all --message "added $@"
+# 	&& rm --recursive --force .github \
+# 	&& ln --symbolic resources/github/ChristopherBarrington/babs-project/.github
+
+clean-babs-project:
+	echo "[INFO] removing ChristopherBarrington/babs-project submodule"
+	git submodule deinit --quiet --force $(babs_project_submodule_path) \
+	&& git rm --quiet --force $(babs_project_submodule_path) \
+	&& git commit --quiet --all --message "removed ChristopherBarrington/babs-project submodule"
+
 
 ## ---- share directory 
 
@@ -70,7 +97,7 @@ $(share_www_path):
 	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/ $@/shiny/projects
 
 clean-$(share_www_path):
-	echo "[WARN] removing $(share_www_path) directory"
+	echo "[INFO] removing $(share_www_path) directory"
 	rm --recursive --force $(share_www_path)
 
 # -- make a shared directory for geo outputs
@@ -82,7 +109,7 @@ $(share_geo_path):
 	mkdir --parents $@
 
 clean-$(share_geo_path):
-	echo "[WARN] removing $(share_geo_path) directory"
+	echo "[INFO] removing $(share_geo_path) directory"
 	rm --recursive --force $(share_geo_path)
 
 # -- make a link to the babs outputs directory
@@ -95,7 +122,7 @@ $(share_outputs_path):
 	&& ln --symbolic --force --no-dereference $(babs_outputs_path)/$(lab)/$(scientist)/$(user_long)/$(project)/ $@
 
 clean-$(share_outputs_path):
-	echo "[WARN] removing $(share_outputs_path) link"
+	echo "[INFO] removing $(share_outputs_path) link"
 	rm --force $(share_outputs_path)
 
 ## ---- make a link to the active-projects directory
@@ -109,7 +136,7 @@ $(active_projects_link_path):
 	&& ln --symbolic --force --no-dereference $(project_path) $@
 
 clean-active-projects-link:
-	echo "[WARN] removing active-projects link"
+	echo "[INFO] removing active-projects link"
 	rm --force $(active_projects_link_path)
 
 ## ---- data directory
@@ -124,7 +151,7 @@ $(data_inputs_path):
 	&& ln --symbolic --force --no-dereference $(babs_inputs_path)/$(lab)/$(user_long)/$(scientist)/$(project)/ $@
 
 clean-$(data_inputs_path):
-	echo "[WARN] removing $(data_inputs_path) link"
+	echo "[INFO] removing $(data_inputs_path) link"
 	rm --force $(data_inputs_path)
 
 # -- link to genomics' primary_data
@@ -147,7 +174,7 @@ $(data_primary_data_path):
 	ln --symbolic --force --no-dereference "$(babs_inputs_path)/sequencing/data/$(lab)/$(scientist)/$$project_lims/primary_data/" "$(data_primary_data_path)"
 
 clean-$(data_primary_data_path):
-	echo "[WARN] removing $(data_primary_data_path) link"
+	echo "[INFO] removing $(data_primary_data_path) link"
 	rm --force $(data_primary_data_path)
 
 ## ---- configure git repository
