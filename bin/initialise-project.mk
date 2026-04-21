@@ -70,17 +70,18 @@ babs-project: $(babs_project_submodule_path)
 $(babs_project_submodule_path):
 	echo "[INFO] adding ChristopherBarrington/babs-project submodule"
 	git submodule add --quiet --depth 1 git@github.com:ChristopherBarrington/babs-project.git $@ \
-	&& (cd $@ && git sparse-checkout set --no-cone /.github) \
-	&& git commit --quiet --all --message "added $@"
-# 	&& rm --recursive --force .github \
-# 	&& ln --symbolic resources/github/ChristopherBarrington/babs-project/.github
+	&& (cd $@ && git sparse-checkout set --no-cone /.github && git remote set-url --push origin do-not-push) \
+	&& git commit --quiet --all --message "added $@" \
+	&& rm --recursive --force .github \
+	&& ln --symbolic $@/.github
 
 clean-babs-project:
 	echo "[INFO] removing ChristopherBarrington/babs-project submodule"
-	git submodule deinit --quiet --force $(babs_project_submodule_path) \
+	rm .github \
+	&& mv $(babs_project_submodule_path)/.github .github \
+	&& git submodule deinit --quiet --force $(babs_project_submodule_path) \
 	&& git rm --quiet --force $(babs_project_submodule_path) \
 	&& git commit --quiet --all --message "removed ChristopherBarrington/babs-project submodule"
-
 
 ## ---- share directory 
 
