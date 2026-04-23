@@ -1,0 +1,6 @@
+# files and directories to exclude from GitHub Copilot context
+
+data/
+
+# temporary
+bin/initialise-project.mk
