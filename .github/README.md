@@ -5,12 +5,25 @@ This directory contains GitHub-specific configuration files that control how the
 ## Contents
 
 | Path                                | Purpose                                                          |
-|-------------------------------------|------------------------------------------------------------------|
+| :---------------------------------- | :--------------------------------------------------------------- |
 | `CONTRIBUTING.md`                   | Guidelines for contributors: branching, commit style, PR process |
 | `ISSUE_TEMPLATE/bug_report.md`      | Template for reporting bugs                                      |
 | `ISSUE_TEMPLATE/feature_request.md` | Template for requesting new features or enhancements             |
 | `PULL_REQUEST_TEMPLATE.md`          | Default template pre-filled when opening a pull request          |
 | `copilot-instructions.md`           | Custom instructions for GitHub Copilot with project context      |
+
+## Copilot Configuration Directory
+
+The `.copilot/` directory can contain the following subdirectories to organize Copilot customizations:
+
+| Location    | Purpose                                                                                    |
+| :---------- | :----------------------------------------------------------------------------------------- |
+| `agents/`   | Custom sub-agents with specific personas, tool access, and instructions for focused tasks  |
+| `skills/`   | Packages of domain knowledge and instructions that Copilot loads when relevant to a task   |
+| `commands/` | Reusable slash commands that can be invoked in chat to run predefined prompts or workflows |
+| `memory/`   | Persistent facts about the repository that Copilot can refer to across sessions            |
+
+Each subdirectory contains Markdown files that Copilot discovers and uses automatically based on context.
 
 ## AI Model Tiers
 

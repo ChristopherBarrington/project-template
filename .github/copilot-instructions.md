@@ -1,8 +1,5 @@
 # Copilot Instructions
 
-<!-- This file provides GitHub Copilot with persistent context about this project. -->
-<!-- Docs: https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot -->
-
 This file provides GitHub Copilot with persistent context about this project.
 
 ## Project overview
@@ -27,10 +24,20 @@ This is a BABS-STP bioinformatics project. Add a brief description of the projec
 
 - Use kebab-case for file and directory names
 - Use snake_case for variable names
+- Use British English spelling and grammar (e.g. organise, colour, favourites) rather than American English
 - Markdown tables should:
   - be formatted for viewing in plain text as well as rendered Markdown
-  - use `:` notation
+  - use `:` notation for alignment (`: --- :` for centered, `: ---` for left, `--- :` for right)
   - have a leading and trailing space in header row delimiters
+  - pad all cells (header, separator, and data rows) with trailing spaces so all pipes align vertically
+  - ensure separator dashes match the width of the header cell including spaces
+  - example structure where column data are 10 and 17 characters wide:
+    ```
+    | Column One | Column Two        |
+    | :--------- | :---------------- |
+    | Value one  | Some content here |
+    | Value two  | More content      |
+    ```
 - Keep pipeline logic and configuration clearly separated
 - Document non-obvious decisions in code or workflow files
 - Do not commit sensitive data, credentials, or large binary files
@@ -46,3 +53,7 @@ This is a BABS-STP bioinformatics project. Add a brief description of the projec
 ## Notes
 
 Add any project-specific notes, caveats, or context that Copilot should always be aware of here.
+
+## References
+
+- [GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot)
