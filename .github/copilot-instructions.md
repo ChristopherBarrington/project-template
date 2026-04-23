@@ -25,6 +25,8 @@ This is a BABS-STP bioinformatics project. Add a brief description of the projec
 - Use kebab-case for file and directory names
 - Use snake_case for variable names
 - Use British English spelling and grammar (e.g. organise, colour, favourites) rather than American English
+- Use commit messages formatted in British English and in imperative present tense (e.g. "Initialise analysis pipeline", "Organise sample metadata")
+- Prefer using single quotes in scripts where possible, but do not enforce this if it reduces readability or consistency with existing code
 - Markdown tables should:
   - be formatted for viewing in plain text as well as rendered Markdown
   - use `:` notation for alignment (`: --- :` for centered, `: ---` for left, `--- :` for right)
