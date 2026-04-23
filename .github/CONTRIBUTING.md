@@ -1,7 +1,5 @@
 # Contributing
 
-<!-- Docs: https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors -->
-
 Thank you for taking the time to contribute. Please read the guidelines below before opening an issue or submitting a pull request.
 
 ## Reporting issues
@@ -42,3 +40,7 @@ Thank you for taking the time to contribute. Please read the guidelines below be
 ## Questions
 
 If you are unsure about something, open a discussion or contact the BABS team before starting work.
+
+## References
+
+- [GitHub: Setting guidelines for repository contributors](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors)
