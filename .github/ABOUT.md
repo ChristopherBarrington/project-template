@@ -6,6 +6,7 @@ This directory contains GitHub-specific configuration files that control how the
 
 | Path                                | Purpose                                                          |
 | :---------------------------------- | :--------------------------------------------------------------- |
+| `ABOUT.md`                          | Because README.md would render on the landing page               |
 | `CONTRIBUTING.md`                   | Guidelines for contributors: branching, commit style, PR process |
 | `ISSUE_TEMPLATE/bug_report.md`      | Template for reporting bugs                                      |
 | `ISSUE_TEMPLATE/feature_request.md` | Template for requesting new features or enhancements             |
