@@ -42,7 +42,7 @@ This is a BABS-STP bioinformatics project. Add a brief description of the projec
 ### Markdown formatting
 
 - Tables should be formatted for viewing in plain text as well as rendered Markdown
-- Use `:` notation for alignment (`: --- :` for centered, `: ---` for left, `--- :` for right)
+- Use `:` notation for alignment (`: --- :` for centred, `: ---` for left, `--- :` for right)
 - Have a leading and trailing space in header row delimiters
 - Pad all cells (header, separator, and data rows) with trailing spaces so all pipes align vertically
 - Ensure separator dashes match the width of the header cell including spaces

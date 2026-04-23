@@ -15,7 +15,7 @@ This directory contains GitHub-specific configuration files that control how the
 
 ## Copilot Configuration Directory
 
-The `.copilot/` directory can contain the following subdirectories to organize Copilot customizations:
+The `.copilot/` directory can contain the following subdirectories to organise Copilot customizations:
 
 | Location    | Purpose                                                                                    |
 | :---------- | :----------------------------------------------------------------------------------------- |
@@ -92,7 +92,7 @@ Best for: quick iterations, routine tasks, and cost-effective inference.
 
 Best for: code-specific tasks including generation, completion, and documentation.
 
-- Optimized for code understanding and generation
+- Optimised for code understanding and generation
 - Useful for legacy code maintenance and specialized programming tasks
 - Good for generating code snippets and documentation
 
