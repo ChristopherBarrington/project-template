@@ -1,9 +1,9 @@
-# CLAUDE.md
+# Copilot Instructions
 
-<!-- This file is loaded automatically by Claude Code at the start of every session. -->
-<!-- Docs: https://docs.anthropic.com/en/docs/claude-code/memory -->
+<!-- This file provides GitHub Copilot with persistent context about this project. -->
+<!-- Docs: https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot -->
 
-This file provides Claude with persistent context about this project.
+This file provides GitHub Copilot with persistent context about this project.
 
 ## Project overview
 
@@ -21,16 +21,16 @@ This is a BABS-STP bioinformatics project. Add a brief description of the projec
 | `share/`     | Shared outputs (including GEO), e.g. HTML reports, Shiny apps  |
 | `working/`   | Working directories for active analysis                        |
 | `.github/`   | GitHub templates and community health files                    |
-| `.claude/`   | Claude configuration: agents, skills, and this file            |
+| `.copilot/`  | Copilot configuration: instructions and customizations         |
 
 ## Conventions
 
 - Use kebab-case for file and directory names
-- Use snake-case for variable names
+- Use snake_case for variable names
 - Markdown tables should:
   - be formatted for viewing in plain text as well as rendered Markdown
   - use `:` notation
-  - have a leading and trailing space in header row dlimiters 
+  - have a leading and trailing space in header row delimiters
 - Keep pipeline logic and configuration clearly separated
 - Document non-obvious decisions in code or workflow files
 - Do not commit sensitive data, credentials, or large binary files
@@ -45,4 +45,4 @@ This is a BABS-STP bioinformatics project. Add a brief description of the projec
 
 ## Notes
 
-Add any project-specific notes, caveats, or context that Claude should always be aware of here.
+Add any project-specific notes, caveats, or context that Copilot should always be aware of here.
