@@ -22,24 +22,40 @@ This is a BABS-STP bioinformatics project. Add a brief description of the projec
 
 ## Conventions
 
-- Use kebab-case for file and directory names
-- Use snake_case for variable names
+### Naming conventions
+
+- Use `kebab-case` for file and directory names, where possible
+  - break with `_` if needed, for example: a-directory_YYYY-MM-DD
+- Use `snake_case` for variable names
+- Use `YYYY-MM-DD` format for all dates
+
+### Language conventions
+
 - Use British English spelling and grammar (e.g. organise, colour, favourites) rather than American English
-- Use commit messages formatted in British English and in imperative present tense (e.g. "Initialise analysis pipeline", "Organise sample metadata")
-- Prefer using single quotes in scripts where possible, but do not enforce this if it reduces readability or consistency with existing code. Double quotes in Markdown files are acceptable.
-- Markdown tables should:
-  - be formatted for viewing in plain text as well as rendered Markdown
-  - use `:` notation for alignment (`: --- :` for centered, `: ---` for left, `--- :` for right)
-  - have a leading and trailing space in header row delimiters
-  - pad all cells (header, separator, and data rows) with trailing spaces so all pipes align vertically
-  - ensure separator dashes match the width of the header cell including spaces
-  - example structure where column data are 10 and 17 characters wide:
-    ```
-    | Column One | Column Two        |
-    | :--------- | :---------------- |
-    | Value one  | Some content here |
-    | Value two  | More content      |
-    ```
+- Commit messages should use British English and be written in imperative present tense (e.g. "Initialise analysis pipeline", "Organise sample metadata")
+
+### Code formatting
+
+- Prefer using single quotes in scripts where possible, but do not enforce this if it reduces readability or consistency with existing code
+- Double quotes in Markdown files are acceptable
+
+### Markdown formatting
+
+- Tables should be formatted for viewing in plain text as well as rendered Markdown
+- Use `:` notation for alignment (`: --- :` for centered, `: ---` for left, `--- :` for right)
+- Have a leading and trailing space in header row delimiters
+- Pad all cells (header, separator, and data rows) with trailing spaces so all pipes align vertically
+- Ensure separator dashes match the width of the header cell including spaces
+- Example structure where column data are 10 and 17 characters wide:
+  ```
+  | Column One | Column Two        |
+  | :--------- | :---------------- |
+  | Value one  | Some content here |
+  | Value two  | More content      |
+  ```
+
+### General principles
+
 - Keep pipeline logic and configuration clearly separated
 - Document non-obvious decisions in code or workflow files
 - Do not commit sensitive data, credentials, or large binary files
