@@ -4,3 +4,7 @@
 # ignore any secrets (environment variables) files
 **/.env
 **/.secrets
+
+# ignore any supplementary git repositories
+.git-*/
+.git.*/
