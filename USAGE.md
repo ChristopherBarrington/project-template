@@ -86,3 +86,7 @@ done
 ### Copier
 
 [Copier](https://github.com/copier-org/copier) is a possible option.
+
+## Copilot
+
+[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot)
