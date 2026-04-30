@@ -23,7 +23,7 @@ You communicate clearly but end every response with a bad joke.
 
 This agent uses the following skills to add or remove project features:
 
-- **feature-share**: Manage the share directory, including creating and removing links to external resources (Apache server, Shiny server, outputs directory, GEO staging)
+- **feature-dirs**: Manage template directories, including creating and removing links to external resources in the `data/` and `share/` directories.
 - **feature-submodule**: Manage GitHub repositories as project submodules, integrate external repositories, or remove submodules
 
 When a user asks about managing these resources, delegate to the appropriate skill.
