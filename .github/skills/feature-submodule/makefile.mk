@@ -7,21 +7,21 @@
 ##   make <target> [variable=value ...]
 ##
 ## CONFIGURABLE VARIABLES:
-##   submodule_path_root  - Base directory for submodule, for example resources/github (required)
-##   repository           - Git(Hub) repository path, for example org/repo (required)
-##   submodule_path       - Full submodule path (default: $(submodule_path_root)/$(repository))
-##   targets              - Space-separated list of directories/files to symlink (required for add-symlinks)
+##   submodule_path_root - Base directory for submodule, for example resources/github (required)
+##   repository          - Git(Hub) repository path, for example org/repo (required)
+##   submodule_path      - Full submodule path (default: $(submodule_path_root)/$(repository))
+##   targets             - Space-separated list of directories/files to symlink (required for add-symlinks)
 ##
 ## TARGETS:
-##   add                   - Add the specified repository as a git submodule with depth 1
-##   add-symlinks          - Create symbolic links for specified targets from submodule to project root
-##   clean-symlinked-dirs  - Remove symlinked directories and restore from submodule
-##   clean-symlinked-files - Remove symlinked files and restore from submodule
-##   clean-submodule       - Deinitialize and remove the git submodule
-##   clean-symlinks        - Remove all symlinked directories and files
-##   remove                - Complete cleanup: remove symlinks and submodule
-##   status                - Show status of submodules in the project
-##   print-<var>           - Print the value of any variable
+##   add                    - Add the specified repository as a git submodule with depth 1
+##   add-symlinks           - Create symbolic links for specified targets from submodule to project root
+##   remove-symlinked-dirs  - Remove symlinked directories and restore from submodule
+##   remove-symlinked-files - Remove symlinked files and restore from submodule
+##   remove-submodule       - Deinitialize and remove the git submodule
+##   remove-symlinks        - Remove all symlinked directories and files
+##   remove                 - Complete cleanup: remove symlinks and submodule
+##   status                 - Show status of submodules in the project
+##   print-<var>            - Print the value of any variable
 ##
 ## EXAMPLES:
 ##   make add repository=org/repo submodule_path=path/to/submodule
@@ -32,7 +32,7 @@
 
 ## ---- make configuration
 
-.PHONY   : default check-submodule-path-exists print-% add add-symlinks status clean-symlinked-dirs clean-symlinked-files clean-submodule clean-symlinks remove
+.PHONY   : default check-submodule-path-exists print-% add add-symlinks status remove-symlinked-dirs remove-symlinked-files remove-submodule remove-symlinks remove
 SHELL    := /bin/bash
 .ONESHELL:
 .SILENT  :
@@ -52,6 +52,11 @@ submodule_path ?= $(submodule_path_root)/$(repository)
 default:
 	echo '[ERROR] no target(s) specified. Please specify a target'
 	exit 1
+
+## ---- print documentation
+
+help:
+	sed --silent --expression '1,/^$$/p' $(MAKEFILE_LIST)
 
 ## ---- check submodule path is set and exists
 
@@ -84,27 +89,27 @@ status:
 ## ---- remove submodule from project
 
 # preserve directories in the project that are links to directories in the submodule
-clean-symlinked-dirs: check-submodule-path-exists
+remove-symlinked-dirs: check-submodule-path-exists
 	echo '[INFO] cleaning directories symlinked to $(submodule_path)'
 	find $(submodule_path) -mindepth 1 -type d -not \( -name .git -prune \) -printf '%P\n' \
 	| xargs --max-args 1 -I @ sh -c 'readlink @ > /dev/null && echo @' \
 	| xargs --max-args 1 -I @ sh -c 'rm -f @ || { echo "[ERROR] failed to remove @"; exit 1; }; mv $(submodule_path)/@ . || exit 1;'
 
 # preserve files in the project that are links to files in the submodule
-clean-symlinked-files: clean-symlinked-dirs
+remove-symlinked-files: remove-symlinked-dirs
 	echo '[INFO] cleaning files symlinked to $(submodule_path)'
 	find $(submodule_path) -mindepth 0 -type f -not -name .git -printf '%P\n' \
 	| xargs --max-args 1 -I @ sh -c 'readlink @ > /dev/null && echo @' \
  	| xargs --max-args 1 -I @ sh -c 'rm -f @ || { echo "[ERROR] failed to remove @"; exit 1; }; mv $(submodule_path)/@ . || exit 1;'
 
-clean-submodule: check-submodule-path-exists clean-symlinks
+remove-submodule: check-submodule-path-exists remove-symlinks
 	echo '[INFO] removing $(repository) submodule'
 	git submodule deinit --quiet --force $(submodule_path) \
 	&& git rm --quiet --force $(submodule_path) \
 	&& echo '[INFO] submodule removed successfully'
 
-clean-symlinks: clean-symlinked-files
-remove: clean-submodule
+remove-symlinks: remove-symlinked-files
+remove: remove-submodule
 
 ## ---- helper target to print variable values, e.g. `make print-foo`
 
