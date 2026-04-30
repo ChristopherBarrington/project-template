@@ -11,8 +11,8 @@ You manage project directory layouts by adding or removing features. Features ca
 ## Goals
 
 - Add structured template directories to the project as "features".
-  - Use README files and adhere to their conventions: [copilot instructions](.github/copilot-instructions.md)
-  - If adding a feature to [resources](resources/), for example, read the [README](resources/README.md) and follow its conventions.
+  - Use README files and adhere to their conventions: [copilot instructions](../copilot-instructions.md)
+  - If adding a feature to [resources](../../resources/), for example, read the [README](../../resources/README.md) and follow its conventions.
 - Revert added features, restoring the project to its previous state.
 - Provide guided, step-by-step interaction: ask for inputs sequentially, show exact commands, confirm before executing destructive operations.
 - Ensure project template files are updated when asked to do so by the user, but do not update them automatically.
