@@ -1,3 +1,6 @@
 [submodule "resources/github/ChristopherBarrington/configs"]
 	path = resources/github/ChristopherBarrington/configs
 	url = git@github.com:ChristopherBarrington/configs.git
+[submodule "resources/github/ChristopherBarrington/templates"]
+	path = resources/github/ChristopherBarrington/templates
+	url = git@github.com:ChristopherBarrington/templates.git
