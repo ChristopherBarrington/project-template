@@ -1,4 +1,4 @@
-# USAGE
+# template project repository
 
 ## Creating a project from this template
 
