@@ -14,8 +14,7 @@
 ##   lab           - Lab name, derived from project path (default: auto-detected)
 ##   scientist     - Scientist name, derived from project path (default: auto-detected)
 ##   project       - Project name, derived from project path (default: auto-detected)
-##   project_hash  - Project hash identifier (default: basename of project path)
-##   project_lims  - Project LIMS identifier for sequencing data (default: auto-detected)
+##   project_lims  - Project LIMS identifier for sequencing data (required for primary_data link)
 ##
 ## TARGETS:
 ##   default                    - Show error message and usage help

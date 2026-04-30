@@ -47,6 +47,15 @@ Complete and report this checklist before taking any action:
 
 A typical project structure contains submodules to the project template repository, BABS STP project, raw data from Genomics STP and links to the project's inputs and outputs directory. Different projects will have different needs so a combination of features can be selected. Features are defined in the following sections.
 
+### BABS project with data from Genomics STP
+
+If a user asks for a 'BABS project with data from Genomics STP', for example, this corresponds to a specific combination of features:
+
+- all features in the data directory
+  - this includes data from Genomics STP via the primary_data symlink and there will be a LIMS ID
+- all features of the share directory
+- a submodule added for the ChristopherBarrington/babs-project without any additional symlinks
+
 ## Safety rules
 
 - Prefer dry-run preview first (echo commands), then execute after user confirms.
