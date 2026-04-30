@@ -15,16 +15,16 @@
 ##   project    - Project name, derived from project path (default: auto-detected)
 ##
 ## TARGETS:
-##   default             - Show error message and usage help
-##   help                - Print this documentation
-##   add                 - Create all share directories and symbolic links
-##   remove              - Remove all share directories and symbolic links
-##   clean-share/www     - Remove the www share directory and its links
-##   clean-share/geo     - Remove the geo share directory
-##   clean-share/outputs - Remove the outputs share link
-##   status              - Display share directory status and project configuration
-##   verify              - Alias for status target
-##   print-<var>         - Print the value of any variable
+##   default                - Show error message and usage help
+##   help                   - Print this documentation
+##   add                    - Create all share directories and symbolic links
+##   remove                 - Remove all share directories and symbolic links
+##   (remove-)share/www     - Add (or remove) the www share directory and its links
+##   (remove-)share/geo     - Add (or remove) the geo share directory
+##   (remove-)share/outputs - Add (or remove) the outputs share link
+##   status                 - Display share directory status and project configuration
+##   verify                 - Alias for status target
+##   print-<var>            - Print the value of any variable
 ##
 ## EXAMPLES:
 ##   make add
@@ -36,7 +36,7 @@
 
 ## ---- make configuration
 
-.PHONY   : default help clean-share/www clean-share/geo clean-share/outputs add remove verify status print-%
+.PHONY   : default help remove-share/www remove-share/geo remove-share/outputs add remove verify status print-%
 SHELL    := /bin/bash
 .ONESHELL:
 .SILENT  :
@@ -64,7 +64,7 @@ default:
 ## ---- print documentation
 
 help:
-	echo "$(shell sed -n '1,/^## ---- /p' $(MAKEFILE_LIST) | grep '^##')"
+	sed --silent --expression '1,/^$$/p' $(MAKEFILE_LIST)
 
 ## ---- make a shared directory for www outputs: html and shiny
 
@@ -78,7 +78,7 @@ $(share_www_path):
 	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/dev/$(lab)/$(scientist)/$(project)/      $@/shiny/dev \
 	&& ln --symbolic --force --no-dereference $(babs_www_path)/shiny/internal/users/$(user_short)/projects/$(lab)/$(scientist)/$(project)/ $@/shiny/projects
 
-clean-$(share_www_path):
+remove-$(share_www_path):
 	echo "[INFO] removing $(share_www_path) directory"
 	rm --recursive --force $(share_www_path)
 
@@ -90,7 +90,7 @@ $(share_geo_path):
 	echo "[INFO] making shared geo directory"
 	mkdir --parents $@
 
-clean-$(share_geo_path):
+remove-$(share_geo_path):
 	echo "[INFO] removing $(share_geo_path) directory"
 	rm --recursive --force $(share_geo_path)
 
@@ -103,7 +103,7 @@ $(share_outputs_path):
 	mkdir --parents $(dir $@) \
 	&& ln --symbolic --force --no-dereference $(babs_outputs_path)/$(lab)/$(scientist)/$(user_long)/$(project)/ $@
 
-clean-$(share_outputs_path):
+remove-$(share_outputs_path):
 	echo "[INFO] removing $(share_outputs_path) link"
 	rm --force $(share_outputs_path)
 
@@ -117,13 +117,11 @@ add: \
 ## ---- remove share from project
 
 remove: \
-	clean-$(share_outputs_path) \
-	clean-$(share_geo_path) \
-	clean-$(share_www_path)
+	remove-$(share_outputs_path) \
+	remove-$(share_geo_path) \
+	remove-$(share_www_path)
 
 ## ---- provide a status of targets
-
-verify: status
 
 status:
 	echo "[INFO] checking share directory status:"
@@ -149,7 +147,7 @@ status:
 		fi
 	done
 
-# -- helper target to print variable values, e.g. `make print-foo`
+## ---- helper target to print variable values, e.g. `make print-foo`
 
 print-%:
 	echo $($*)
