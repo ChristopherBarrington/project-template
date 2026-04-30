@@ -1,0 +1,3 @@
+[submodule "resources/github/ChristopherBarrington/configs"]
+	path = resources/github/ChristopherBarrington/configs
+	url = git@github.com:ChristopherBarrington/configs.git
