@@ -25,7 +25,7 @@ gh config set git_protocol ssh
 Create a new project in the account associated with the `GH_TOKEN` and in the local directory.
 
 ```bash
-GH_TOKEN=$GH_TOKEN gh repo create $new_project --clone --disable-wiki --private --template babs-project
+GH_TOKEN=$GH_TOKEN gh repo create $new_project --clone --disable-wiki --private --template project-template
 ```
 
 Optionally, remove the remote to make the project local-only and delete the newly-created GitHub repository.
@@ -41,7 +41,7 @@ GH_TOKEN=$GH_TOKEN gh repo delete --yes $new_project
 First, clone the template repository into a new `$new_project` directory, and move into the new project.
 
 ```bash
-git clone --branch main git@github.com:ChristopherBarrington/babs-project.git $new_project && cd $_
+git clone --branch main git@github.com:ChristopherBarrington/project-template.git $new_project && cd $_
 ```
 
 Optionally, remove permissions tracking and use the user default configuration, if set. This can avoid problems on Nemo when file permissions get changed and are considered a file change by `git`.
@@ -66,20 +66,20 @@ The template repository can be added to the project as a submodule and template 
 ```bash
 git submodule add \
 --branch main \
-git@github.com:ChristopherBarrington/babs-project \
-resources/github/ChristopherBarrington/babs-project
+git@github.com:ChristopherBarrington/project-template \
+resources/github/ChristopherBarrington/project-template
 ```
 
 Then, a symlink to a template file or directory can be made.
 
 ```bash
 rm --recursive --force .github \
-&& ln --symbolic resources/github/ChristopherBarrington/babs-project/$_ $_
+&& ln --symbolic resources/github/ChristopherBarrington/project-template/$_ $_
 ```
 ```bash
 for target_file in .copilotignore .gitignore resources/README.md; do
 	rm --force $target_file \
-	&& ln --symbolic --relative resources/github/ChristopherBarrington/babs-project/$target_file $target_file
+	&& ln --symbolic --relative resources/github/ChristopherBarrington/project-template/$target_file $target_file
 done
 ```
 
