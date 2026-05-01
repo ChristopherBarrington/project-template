@@ -1,4 +1,4 @@
-# template project repository
+# project template repository
 
 ## Creating a project from this template
 
