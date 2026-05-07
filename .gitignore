@@ -8,3 +8,6 @@
 # ignore any supplementary git repositories
 .git-*/
 .git.*/
+
+# ignore a local scratch directory
+scratch/
