@@ -1,0 +1,6 @@
+**/.nextflow/
+**/.nextflow.log
+**/.nextflow.log.*
+**/etc/
+**/work/
+**/tmp/
