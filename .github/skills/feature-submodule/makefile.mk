@@ -43,8 +43,8 @@ SHELL    := /bin/bash
 check-var = $(if $(value $(1)),,$(error $(1) must be set, for example: $(2)))
 
 ifneq ($(MAKECMDGOALS), help)
-	$(call check-var,submodule_path_root,path/to/directory)
-	$(call check-var,repository,org/repo)
+$(call check-var,submodule_path_root,path/to/directory)
+$(call check-var,repository,org/repo)
 endif
 
 repository_url ?= git@github.com:$(repository).git
