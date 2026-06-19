@@ -22,6 +22,7 @@
 ##   (remove-)share/www     - Add (or remove) the www share directory and its links
 ##   (remove-)share/geo     - Add (or remove) the geo share directory
 ##   (remove-)share/outputs - Add (or remove) the outputs share link
+##   (remove-)share/globus  - Add (or remove) the globus share link
 ##   status                 - Display share directory status and project configuration
 ##   verify                 - Alias for status target
 ##   print-<var>            - Print the value of any variable
@@ -107,19 +108,34 @@ remove-$(share_outputs_path):
 	echo "[INFO] removing $(share_outputs_path) link"
 	rm --force $(share_outputs_path)
 
+## ---- make a link to the globus directory
+
+share_globus_path = share/globus
+
+$(share_globus_path):
+	echo "[INFO] linking to globus"
+	mkdir --parents $(dir $@) \
+	&& ln --symbolic --force --no-dereference /phogg/globus/$(user_short)/projects/$(lab)/$(scientist)/$(project)/ $@
+
+remove-$(share_globus_path):
+	echo "[INFO] removing $(share_globus_path) link"
+	rm --force $(share_globus_path)
+
 ## ---- add all share directories
 
 add: \
 	$(share_outputs_path) \
 	$(share_geo_path) \
-	$(share_www_path)
+	$(share_www_path) \
+	$(share_globus_path)
 
 ## ---- remove share from project
 
 remove: \
 	remove-$(share_outputs_path) \
 	remove-$(share_geo_path) \
-	remove-$(share_www_path)
+	remove-$(share_www_path) \
+	remove-$(share_globus_path)
 
 ## ---- provide a status of targets
 
@@ -134,7 +150,7 @@ status:
 	echo "  user_long:        $(user_long)"
 	echo ""
 	echo "share directory status:"
-	for path in $(share_www_path) $(share_geo_path) $(share_outputs_path); do
+	for path in $(share_www_path) $(share_geo_path) $(share_outputs_path) $(share_globus_path); do
 		if [[ -e "$$path" ]]; then
 			if [[ -L "$$path" ]]; then
 				target=$$(readlink "$$path")
