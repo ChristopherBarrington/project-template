@@ -18,16 +18,16 @@ This project supports multiple AI models through GitHub Copilot, each suited to 
 
 ### Quick Comparison
 
-| Model         | Best For                                        |
-| :------------ | :---------------------------------------------- |
-| Claude Haiku  | Quick tasks, autocomplete, simple Q&A           |
-| Claude Sonnet | Day-to-day coding, code review, documentation   |
-| Claude Opus   | Complex reasoning, architecture, high-stakes    |
-| GPT           | Complex reasoning, multi-step problems          |
-| GPT Mini      | Routine tasks, quick iterations, cost-effective |
-| GPT Codex     | Code generation, legacy code, specialised tasks |
+| Provider  | Model         | Best For                                        |
+| :-------- | :------------ | :---------------------------------------------- |
+| Anthropic | Claude Haiku  | Quick tasks, autocomplete, simple Q&A           |
+|           | Claude Sonnet | Day-to-day coding, code review, documentation   |
+|           | Claude Opus   | Complex reasoning, architecture, high-stakes    |
+| OpenAI    | GPT           | Complex reasoning, multi-step problems          |
+|           | GPT Mini      | Routine tasks, quick iterations, cost-effective |
+|           | GPT Codex     | Code generation, legacy code, specialised tasks |
 
-### Claude Models (Anthropic)
+### Anthropic Models
 
 #### [Haiku](https://www.anthropic.com/claude/haiku) — fast and lightweight
 
