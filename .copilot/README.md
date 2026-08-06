@@ -18,14 +18,15 @@ This project supports multiple AI models through GitHub Copilot, each suited to 
 
 ### Quick Comparison
 
-| Provider  | Model         | Best For                                        |
-| :-------- | :------------ | :---------------------------------------------- |
-| Anthropic | Claude Haiku  | Quick tasks, autocomplete, simple Q&A           |
-|           | Claude Sonnet | Day-to-day coding, code review, documentation   |
-|           | Claude Opus   | Complex reasoning, architecture, high-stakes    |
-| OpenAI    | GPT           | Complex reasoning, multi-step problems          |
-|           | GPT Mini      | Routine tasks, quick iterations, cost-effective |
-|           | GPT Codex     | Code generation, legacy code, specialised tasks |
+| Provider  | Model         | Best For                                         |
+| :-------- | :------------ | :----------------------------------------------- |
+| Anthropic | Claude Haiku  | Quick tasks, autocomplete, simple Q&A            |
+|           | Claude Sonnet | Day-to-day coding, code review, documentation    |
+|           | Claude Fable  | Creative ideation, exploratory drafts, tone work |
+|           | Claude Opus   | Complex reasoning, architecture, high-stakes     |
+| OpenAI    | GPT           | Complex reasoning, multi-step problems           |
+|           | GPT Mini      | Routine tasks, quick iterations, cost-effective  |
+|           | GPT Codex     | Code generation, legacy code, specialised tasks  |
 
 ### Anthropic Models
 
@@ -46,6 +47,15 @@ Best for: general coding assistance, code review, explanation, documentation, an
 - Good balance of speed and capability
 - Handles multi-step problems, refactoring, and debugging well
 - The default choice for most tasks in this project
+
+#### [Fable](https://www.anthropic.com/claude/fable) — creative and exploratory
+
+Best for: brainstorming, narrative framing, naming, and early-draft content where tone and originality matter.
+
+- Strong at idea generation and alternative phrasings
+- Useful for drafting docs intros, release notes framing, and design narratives
+- Better for exploration than strict deterministic implementation work
+- Pair with Sonnet or Opus when moving from ideation to production-quality code changes
 
 #### [Opus](https://www.anthropic.com/claude/opus) — most capable
 
