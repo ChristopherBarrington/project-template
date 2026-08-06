@@ -73,9 +73,10 @@ resources/github/ChristopherBarrington/project-template
 Then, a symlink to a template file or directory can be made.
 
 ```bash
-rm --recursive --force .github \
+rm --recursive --force .copilot \
 && ln --symbolic resources/github/ChristopherBarrington/project-template/$_ $_
 ```
+
 ```bash
 for target_file in .copilotignore .gitignore resources/README.md; do
 	rm --force $target_file \
