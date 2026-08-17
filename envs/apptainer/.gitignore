@@ -1,2 +1,2 @@
-# ignore apptainer image files
+# ignore apptainer/singularity image files
 *.sif
