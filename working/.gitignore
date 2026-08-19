@@ -2,4 +2,7 @@
 **/logs/
 **/outputs/
 **/renv/
+
+# for r-based work directories
 Rplots.pdf
+.Rprofile
