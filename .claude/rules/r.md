@@ -1,3 +1,13 @@
+---
+paths:
+  - '**/*.qmd'
+  - '**/*.r'
+  - '**/*.R'
+  - '**/*.Rmd'
+  - '**/*.rscript'
+  - '**/*.Rscript'
+---
+
 # R deliverable scripts
 
 Applies to deliverable scripts only (see `r.md`), in addition to the rules there.

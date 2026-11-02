@@ -1,3 +1,11 @@
+---
+paths:
+  - '**/*.bash'
+  - '**/*.sbatch'
+  - '**/*.sh'
+  - '**/*.srun'
+---
+
 # Bash deliverable scripts
 
 Applies to deliverable scripts only (see `bash.md`), in addition to the rules there.
