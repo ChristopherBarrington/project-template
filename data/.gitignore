@@ -1,3 +1,6 @@
-external/
-inputs
-primary_data
+# ignore everything except directories (so nested READMEs can be reached) and READMEs
+# use `git add --force` for anything else that should be tracked, eg setup scripts
+*
+!*/
+!.gitignore
+!README.md

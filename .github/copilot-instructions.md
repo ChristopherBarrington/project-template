@@ -4,16 +4,35 @@ This file provides GitHub Copilot with persistent context about this project. Th
 
 ## Repository structure
 
-| Path         | Purpose                                                           |
-| :----------- | :---------------------------------------------------------------- |
-| `bin/`       | Binaries/scripts for the project                                  |
-| `data/`      | Raw and processed data (not committed to version control)         |
-| `docs/`      | Project documentation                                             |
-| `envs/`      | Conda and Singularity environment definitions                     |
-| `resources/` | Clones of GitHub repositories and package documentation (PDFs)    |
-| `share/`     | Shared outputs (including GEO), e.g. HTML reports, Shiny apps     |
-| `working/`   | Working directories for active analysis                           |
-| `.github/`   | GitHub templates, community health files and Copilot instructions |
+| Path         | Purpose                                                                          |
+| :----------- | :------------------------------------------------------------------------------- |
+| `bin/`       | Optional executables and scripts for the whole project (launchers, reused tools) |
+| `data/`      | Input data, not committed to version control (only READMEs are tracked)          |
+| `docs/`      | Project and biological documentation (papers, collaborator material)             |
+| `envs/`      | Conda and container (Apptainer/Singularity) environment definitions              |
+| `resources/` | Computational reference material: repositories, software, published references   |
+| `scratch/`   | Untracked dumping ground; ignored at any depth                                   |
+| `share/`     | Links to results in `working/`, organised for sharing (including GEO)            |
+| `working/`   | Where analyses are run and all results are stored                                |
+| `.github/`   | GitHub templates, community health files and Copilot instructions                |
+
+Further conventions:
+
+- `data/` holds collaborator, Crick and public (`external/`) data and links to analysis products (`derived/`). Published references (for example mm10) belong in `resources/references/`.
+- `share/` contains no output files, only links to results in `working/`. Results are never stored outside `working/`.
+- Analyses in `working/` are structured hierarchically (for example `working/<topic>/<tool>`), with `inputs/`, `outputs/`, `logs/` and `renv/` ignored by git.
+- `README.md` files are tracked everywhere, including in otherwise-ignored directories.
+- `.git-public/` is an ignored second git directory used to publish code with a separate history.
+
+## Data access
+
+Listing file names anywhere is fine; reading files is restricted:
+
+- `data/` holds primary data and is not read, except its `README.md` files.
+- The contents of an analysis's `inputs/` are never read.
+- Files in an analysis's `outputs/` are read only when the user names them.
+- Large data formats are never read, wherever they are: reads and alignments (FASTQ, SAM, BAM, CRAM and their indexes, FAST5, POD5, BCL), sequences (FASTA), variants (VCF, BCF), tracks and contacts (bigWig, bigBed, Hi-C, cool), matrices and objects (MTX, HDF5, h5ad, Seurat, loom, RDS, RData, qs, Feather, Parquet, Arrow, NumPy, pickle, Zarr) and images (TIFF, CZI, ND2, LIF, IMS).
+- Paths starting with `_` are inactive and are ignored.
 
 ## Conventions
 

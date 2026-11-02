@@ -1,6 +1,12 @@
 # working/
 
-All working analyses for the project are kept here. Each analysis should be in its own sub-directory, with its code tracked via git. `outputs/` are excluded from the index by default using `.gitignore`, among other non-code-related directories - `logs/` and `renv/`. These can be added to if necessary.
+All working analyses for the project are kept here, and all results are stored here. Anything needed elsewhere is symlinked out: to `data/derived/` if it is an input to other analyses, or to `share/` if it is for the collaborator. Each analysis should be in its own sub-directory, with its code tracked via git.
+
+The directory should be structured, not a flat directory of dozens of scripts for every analysis in the project. A convention is `working/<topic>/<tool>`, for example `working/cell-cell-communication/cell-chat` or `working/samtools/merge`, but it is not fixed and should be adapted to the analysis.
+
+Within an analysis, `inputs/` holds links to the data used (from `data/` or the `outputs/` of other analyses) and `outputs/` holds the results. These, `logs/` and `renv/` are excluded from the index by default using `.gitignore`, and this can be added to if necessary. `bin/` (executables used by the analysis) and `scratch/` (untracked) have the same meaning as at the project level.
+
+Each analysis should have a `README.md` at some level; `analysis-readme-template.md` in this directory can be copied as a starting point.
 
 Analyses can have their own environments and documentation and should include a README.md at some level.
 

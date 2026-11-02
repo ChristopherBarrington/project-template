@@ -1,2 +1,12 @@
 **/*.html
 **/*.pdf
+
+# but keep package documentation
+!docs/**/*.html
+!docs/**/*.pdf
+
+# ignore published reference data but track READMEs and convenience (download) scripts
+references/**
+!references/**/
+!references/**/README.md
+!references/**/*.sh

@@ -5,9 +5,13 @@
 **/.env
 **/.secrets
 
-# ignore any supplementary git repositories
-.git-*/
-.git.*/
+# ignore a supplementary git repository (eg for publishing code with a separate history)
+.git-public/
 
-# ignore a local scratch directory
-scratch/
+# ignore the contents of any scratch directory, but track the top-level README
+**/scratch/*
+!/scratch/README.md
+
+# ignore personal Claude Code settings and instructions
+**/.claude/settings.local.json
+**/CLAUDE.local.md
