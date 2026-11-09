@@ -1,7 +1,7 @@
 <!--
 Note for the editor; Claude Code removes this comment before Claude reads the file.
 
-Write here what Claude cannot find out for itself: the project's aim, the collaborators and any terms they set, where the main analyses are and the decisions taken along the way. Keep the file under 200 lines.
+The project's aim, collaborators, data, analyses and decisions are written once, in README.md, which is imported below. Write here only instructions for Claude that do not belong in the README. Keep README.md and this file under 200 lines between them.
 
 Do not write here:
 - rules that must be enforced: they belong in .claude/settings.json, which Claude cannot override;
@@ -14,18 +14,4 @@ An analysis can add its own CLAUDE.md in working/<analysis>/, which Claude reads
 
 # This project
 
-## Aim
-
-<!-- What the project is trying to find out. -->
-
-## Collaborators
-
-<!-- Who the project is for, and any terms they set on the data or results. -->
-
-## Data
-
-<!-- What is in data/ and where it came from. -->
-
-## Main analyses
-
-<!-- Where the main analyses are in working/ and what each one does. -->
+@README.md

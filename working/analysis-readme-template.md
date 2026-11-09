@@ -1,3 +1,7 @@
+---
+summary: One sentence on the purpose of the analysis, for the project README.
+---
+
 # analysis title
 
 One or two sentences on the purpose of the analysis and the question it answers.

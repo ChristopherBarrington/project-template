@@ -21,6 +21,10 @@ The contents of `data/` are not tracked by git because the files are large; only
 
 The canonical sample sheet (for example `data/samples.csv`) lives here. Analyses link to it through their `inputs/` rather than keeping their own copies, so there is a single source of truth. It is small, so it is a good candidate for `git add --force`.
 
+## Listing in the project README
+
+A `README.md` in `data/` whose frontmatter has a one-line `summary:` is listed in the project README's Data table. Give a summary to the READMEs that describe a type of data, not to every directory.
+
 ## Provenance
 
 Record where each set of files came from: the source (for example the Genomics STP project ID, the collaborator or an accession), the date received or downloaded, and a checksum manifest (for example `md5sum` or `sha256sum` output kept alongside the files, as `checksums.md5`). Checksums let transfers be verified and show if a file changes later. Keep this in a README or manifest in the same directory; use `git add --force` to track a manifest.

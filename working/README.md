@@ -6,7 +6,7 @@ The directory should be structured, not a flat directory of dozens of scripts fo
 
 Within an analysis, `inputs/` holds links to the data used (from `data/` or the `outputs/` of other analyses) and `outputs/` holds the results. These, `logs/` and `renv/` are excluded from the index by default using `.gitignore`, and this can be added to if necessary. `bin/` (executables used by the analysis) and `scratch/` (untracked) have the same meaning as at the project level.
 
-Each analysis should have a `README.md` at some level; `analysis-readme-template.md` in this directory can be copied as a starting point.
+Each analysis should have a `README.md` at some level; `analysis-readme-template.md` in this directory can be copied as a starting point. A one-line `summary:` in the frontmatter of the README at the root of an analysis lists it in the project README's Analyses table; READMEs without a summary are not listed.
 
 Analyses can have their own environments and documentation and should include a README.md at some level.
 
