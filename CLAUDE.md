@@ -7,6 +7,8 @@ Do not write here:
 - rules that must be enforced: they belong in .claude/settings.json, which Claude cannot override;
 - personal preferences: they belong in ~/.claude/CLAUDE.md, or in a git-ignored CLAUDE.local.md beside this file.
 
+The template's conventions and data access rules are in .claude/rules/conventions.md, which is loaded alongside this file.
+
 An analysis can add its own CLAUDE.md in working/<analysis>/, which Claude reads when it first works with a file there.
 -->
 
@@ -27,16 +29,3 @@ An analysis can add its own CLAUDE.md in working/<analysis>/, which Claude reads
 ## Main analyses
 
 <!-- Where the main analyses are in working/ and what each one does. -->
-
-# Conventions and data access
-
-@.github/copilot-instructions.md
-
-# Claude only
-
-- Start at the project root, and `cd` to an analysis from there rather than starting Claude in it.
-- Reads are denied deliberately by `.claude/settings.json`. If a read is denied, stop and tell the user; do not work round it.
-- Write scripts for the user to run. Do not run them on the project's data.
-- List `private/`, `inputs/` and `outputs/` directories freely to learn file names, but read files in `outputs/` only when the user names them.
-- Do not read files with no extension in `private/` directories or `inputs/`.
-- How the settings work, and their known gaps, are described in the "Claude Code" section of `.github/ABOUT.md`.

@@ -1,6 +1,8 @@
-# Copilot Instructions
+# Project conventions
 
-This file provides GitHub Copilot with persistent context about this project. This repository is a bioinformatics project that contains raw data, analysis and results. It should be as self-contained as possible and enable easy reproducibility of results by other users. The repository structure and conventions are described below.
+The conventions of the project template, loaded at the start of every session. Project-specific context is in `CLAUDE.md`.
+
+This repository is a bioinformatics project that contains raw data, analysis and results. It should be as self-contained as possible and enable easy reproducibility of results by other users. The repository structure and conventions are described below.
 
 ## Repository structure
 
@@ -14,7 +16,8 @@ This file provides GitHub Copilot with persistent context about this project. Th
 | `scratch/`   | Untracked dumping ground; ignored at any depth                                   |
 | `share/`     | Links to results in `working/`, organised for sharing (including GEO)            |
 | `working/`   | Where analyses are run and all results are stored                                |
-| `.github/`   | GitHub templates, community health files and Copilot instructions                |
+| `.claude/`   | Claude Code settings (permissions and sandbox) and rules, including this file    |
+| `.github/`   | GitHub templates, community health files and the template's documentation        |
 
 Further conventions:
 
@@ -33,6 +36,14 @@ Listing file names anywhere is fine; reading files is restricted:
 - Files in an analysis's `outputs/` are read only when the user names them.
 - Large data formats are never read, wherever they are: reads and alignments (FASTQ, SAM, BAM, CRAM and their indexes, FAST5, POD5, BCL), sequences (FASTA), variants (VCF, BCF), tracks and contacts (bigWig, bigBed, Hi-C, cool), matrices and objects (MTX, HDF5, h5ad, Seurat, loom, RDS, RData, qs, Feather, Parquet, Arrow, NumPy, pickle, Zarr) and images (TIFF, CZI, ND2, LIF, IMS).
 - Paths starting with `_` are inactive and are ignored.
+- Files with no extension in `private/` directories or `inputs/` are not read.
+
+Reads are denied deliberately by `.claude/settings.json`. If a read is denied, stop and tell the user; do not work round it. How the settings work, and their known gaps, are described in the "Claude Code" section of `.github/ABOUT.md`.
+
+## Working in the project
+
+- Start at the project root, and `cd` to an analysis from there rather than starting Claude in it.
+- Write scripts for the user to run. Do not run them on the project's data.
 
 ## Conventions
 

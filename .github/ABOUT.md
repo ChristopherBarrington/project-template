@@ -1,6 +1,6 @@
 # .github/
 
-This directory contains GitHub/VSCode-specific configuration files that control how the repository behaves on GitHub/VSCode.
+This directory contains GitHub-specific files that control how the repository behaves on GitHub, and this documentation of the template.
 
 ## Contents
 
@@ -12,34 +12,26 @@ This directory contains GitHub/VSCode-specific configuration files that control 
 | `ISSUE_TEMPLATE/feature_request.md` | Template for requesting new features or enhancements             |
 | `PULL_REQUEST_TEMPLATE.md`          | Default template pre-filled when opening a pull request          |
 
-The GitHub Copilot configuration directory can contain the following subdirectories to organise Copilot customisations:
-
-| Location                  | Purpose                                                                                    |
-| :------------------------ | :----------------------------------------------------------------------------------------- |
-| `agents/`                 | Custom sub-agents with specific personas, tool access, and instructions for focused tasks  |
-| `skills/`                 | Packages of domain knowledge and instructions that Copilot loads when relevant to a task   |
-| `commands/`               | Reusable slash commands that can be invoked in chat to run predefined prompts or workflows |
-| `memory/`                 | Persistent facts about the repository that Copilot can refer to across sessions            |
-| `copilot-instructions.md` | Custom instructions for GitHub Copilot with project context                                |
-
-Each subdirectory contains Markdown files that Copilot discovers and uses automatically based on context.
-
 ## Project template
 
 This repository is a template for bioinformatics projects. The root `README.md` is the project landing page, describing what is being done in the project, whereas documentation about the template is here. Each directory has a `README.md` describing its intended use.
 
 ### Repository structure
 
-| Directory    | Purpose                                                                     |
-| :----------- | :-------------------------------------------------------------------------- |
-| `bin/`       | Optional executables and scripts for the whole project                      |
-| `data/`      | Input data: from the collaborator, the Crick, public sources or derived     |
-| `docs/`      | Documentation about the project and its biology                             |
-| `envs/`      | Conda and container environment definitions                                 |
-| `resources/` | Computational reference material: repositories, software, published genomes |
-| `scratch/`   | Untracked dumping ground                                                    |
-| `share/`     | Links to results in `working/`, organised for sharing with collaborators    |
-| `working/`   | Where analyses are run and all results are stored                           |
+| Path         | Purpose                                                                                 |
+| :----------- | :-------------------------------------------------------------------------------------- |
+| `bin/`       | Optional executables and scripts for the whole project                                  |
+| `data/`      | Input data: collaborator, Crick, public, derived, `private/` and `synthetic/`           |
+| `docs/`      | Documentation about the project and its biology                                         |
+| `envs/`      | Environment definitions: `conda/`, `apptainer/` and `singularity/`                      |
+| `resources/` | Computational reference material: repositories, software, published genomes             |
+| `scratch/`   | Untracked dumping ground; ignored at any depth                                          |
+| `share/`     | Links to results in `working/`, organised for sharing with collaborators and GEO        |
+| `working/`   | Where analyses are run and all results are stored; `nf-core/` for nf-core pipeline runs |
+| `.claude/`   | Claude Code settings (permissions and sandbox) and rules, including the conventions     |
+| `.github/`   | GitHub templates, community health files and this file                                  |
+| `CLAUDE.md`  | Project context and data access instructions for Claude Code                            |
+| `README.md`  | Project landing page: aims, collaborators, data and main analyses                       |
 
 ### Where does this file go?
 
@@ -56,9 +48,12 @@ This repository is a template for bioinformatics projects. The root `README.md` 
 | GitHub repository used by the analysis           | `resources/github/<owner>/<repo>/` as a submodule |
 | Manual or vignette for a package                 | `resources/docs/<package>/`                       |
 | Paper, protocol or slides about the biology      | `docs/`                                           |
-| Conda recipe or container definition             | `envs/`                                           |
+| Conda recipe or environment                      | `envs/conda/`                                     |
+| Apptainer or Singularity image or definition     | `envs/apptainer/` or `envs/singularity/`          |
 | Script reused across analyses                    | `bin/`                                            |
 | Code and results of an analysis                  | `working/<topic>/<tool>/`                         |
+| Run of an nf-core pipeline                       | `working/nf-core/<pipeline>/`                     |
+| Instructions for Claude                          | `.claude/rules/`                                  |
 | HTML report or Shiny app for a collaborator      | link in `share/` to the result in `working/`      |
 | Files to upload to GEO                           | links in `share/geo/`                             |
 | Temporary files                                  | `scratch/`                                        |
@@ -150,11 +145,15 @@ template=resources/github/ChristopherBarrington/project-template
 for target in \
 	.gitignore \
 	data/.gitignore \
+	envs/apptainer/.gitignore \
+	envs/conda/.gitignore \
+	envs/singularity/.gitignore \
 	resources/.gitignore \
 	share/.gitignore \
+	working/.gitignore \
+	working/nf-core/.gitignore \
 	resources/README.md \
-	.github/copilot-instructions.md \
-	.github/skills; do
+	.claude/rules/conventions.md; do
 	rm --recursive --force $target \
 	&& ln --symbolic --relative $template/$target $target
 done
@@ -164,13 +163,9 @@ done
 
 [Copier](https://github.com/copier-org/copier) is a possible option.
 
-### Copilot
-
-[GitHub Copilot Custom Instructions](https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot)
-
 ## Claude Code
 
-Claude Code is kept away from the project's data by `.claude/settings.json`. Its permission rules govern Claude's file tools and its sandbox governs every command Claude runs in Bash. These are enforced by Claude Code, not left to Claude's judgement. `CLAUDE.md` gives Claude the project's context and the same rules as instructions.
+Claude Code is kept away from the project's data by `.claude/settings.json`. Its permission rules govern Claude's file tools and its sandbox governs every command Claude runs in Bash. These are enforced by Claude Code, not left to Claude's judgement. `CLAUDE.md` gives Claude the project's context, and `.claude/rules/conventions.md` gives it the template's conventions and the same rules as instructions.
 
 ### What the sandbox is, and why
 
@@ -386,25 +381,18 @@ conda activate claude-sandbox
 
 Check with `/sandbox` in a session. Without them, Claude Code refuses to start in the project (`failIfUnavailable`).
 
-### Copilot Chat
-
-Copilot's Chat tab does not load Claude Code's settings. It gets only the instructions in `.github/copilot-instructions.md`, which it is asked, not forced, to follow.
-
 ## AI Model Tiers
 
-This project supports multiple AI models through GitHub Copilot, each suited to different tasks and workloads.
+Claude Code can use any of the Claude models, each suited to different tasks and workloads. Choose one with `/model`.
 
 ### Quick Comparison
 
-| Provider  | Model         | Best For                                         |
-| :-------- | :------------ | :----------------------------------------------- |
-| Anthropic | Claude Haiku  | Quick tasks, autocomplete, simple Q&A            |
-|           | Claude Sonnet | Day-to-day coding, code review, documentation    |
-|           | Claude Fable  | Creative ideation, exploratory drafts, tone work |
-|           | Claude Opus   | Complex reasoning, architecture, high-stakes     |
-| OpenAI    | GPT           | Complex reasoning, multi-step problems           |
-|           | GPT Mini      | Routine tasks, quick iterations, cost-effective  |
-|           | GPT Codex     | Code generation, legacy code, specialised tasks  |
+| Model         | Best For                                         |
+| :------------ | :----------------------------------------------- |
+| Claude Haiku  | Quick tasks, autocomplete, simple Q&A            |
+| Claude Sonnet | Day-to-day coding, code review, documentation    |
+| Claude Fable  | Creative ideation, exploratory drafts, tone work |
+| Claude Opus   | Complex reasoning, architecture, high-stakes     |
 
 ### Anthropic Models
 
@@ -444,34 +432,8 @@ Best for: difficult, high-stakes, or deeply reasoned tasks where quality matters
 - Slower and more resource-intensive than Haiku or Sonnet
 - Worth using for architecture decisions, complex debugging, or thorough code review; overkill for routine tasks
 
-### OpenAI Models
-
-#### GPT — most capable
-
-Best for: complex reasoning, multi-step problem-solving, and highest quality outputs.
-
-- Advanced reasoning and problem-solving capabilities
-- Excellent for sophisticated code generation and architectural decisions
-- Higher latency and resource usage
-
-#### GPT Mini — fast and efficient
-
-Best for: quick iterations, routine tasks, and cost-effective inference.
-
-- Faster response times than larger models
-- Good balance of capability and speed
-- Suitable for autocomplete, simple queries, and boilerplate generation
-
-#### GPT Codex — specialised code generation
-
-Best for: code-specific tasks including generation, completion, and documentation.
-
-- Optimised for code understanding and generation
-- Useful for legacy code maintenance and specialised programming tasks
-- Good for generating code snippets and documentation
-
 ## References
 
 - [GitHub community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
 - [Issue and PR templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
-- [Supported models in GitHub Copilot](https://docs.github.com/en/copilot/reference/ai-models/supported-models)
+- [Claude models overview](https://docs.claude.com/en/docs/about-claude/models/overview)
