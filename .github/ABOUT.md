@@ -28,7 +28,7 @@ This repository is a template for bioinformatics projects. The root `README.md` 
 | `scratch/`   | Untracked dumping ground; ignored at any depth                                          |
 | `share/`     | Links to results in `working/`, organised for sharing with collaborators and GEO        |
 | `working/`   | Where analyses are run and all results are stored; `nf-core/` for nf-core pipeline runs |
-| `.claude/`   | Claude Code settings (permissions and sandbox) and rules, including the conventions     |
+| `.claude/`   | Claude Code settings (permissions and sandbox) and the rules Claude follows             |
 | `.github/`   | GitHub templates, community health files and this file                                  |
 | `CLAUDE.md`  | Project context and data access instructions for Claude Code                            |
 | `README.md`  | Project landing page: aims, collaborators, data and main analyses                       |
@@ -153,7 +153,7 @@ for target in \
 	working/.gitignore \
 	working/nf-core/.gitignore \
 	resources/README.md \
-	.claude/rules/conventions.md; do
+	.claude/rules/project-rules.md; do
 	rm --recursive --force $target \
 	&& ln --symbolic --relative $template/$target $target
 done
@@ -165,7 +165,7 @@ done
 
 ## Claude Code
 
-Claude Code is kept away from the project's data by `.claude/settings.json`. Its permission rules govern Claude's file tools and its sandbox governs every command Claude runs in Bash. These are enforced by Claude Code, not left to Claude's judgement. `CLAUDE.md` gives Claude the project's context, and `.claude/rules/conventions.md` gives it the template's conventions and the same rules as instructions.
+Claude Code is kept away from the project's data by `.claude/settings.json`. Its permission rules govern Claude's file tools and its sandbox governs every command Claude runs in Bash. These are enforced by Claude Code, not left to Claude's judgement. `CLAUDE.md` gives Claude the project's context, and `.claude/rules/project-rules.md` gives it the same rules as instructions.
 
 ### What the sandbox is, and why
 
