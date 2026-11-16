@@ -37,6 +37,6 @@ An analysis can add its own CLAUDE.md in working/<analysis>/, which Claude reads
 - Start at the project root, and `cd` to an analysis from there rather than starting Claude in it.
 - Reads are denied deliberately by `.claude/settings.json`. If a read is denied, stop and tell the user; do not work round it.
 - Write scripts for the user to run. Do not run them on the project's data.
-- List `data/`, `inputs/` and `outputs/` freely to learn file names, but read files in `outputs/` only when the user names them.
-- Do not read files with no extension in `data/` or `inputs/`.
+- List `private/`, `inputs/` and `outputs/` directories freely to learn file names, but read files in `outputs/` only when the user names them.
+- Do not read files with no extension in `private/` directories or `inputs/`.
 - How the settings work, and their known gaps, are described in the "Claude Code" section of `.github/ABOUT.md`.

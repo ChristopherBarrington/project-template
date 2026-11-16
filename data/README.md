@@ -10,6 +10,8 @@ Files or directories in this directory will be symlinked from the working analys
 | `inputs/`       | Symlink to BABS' inputs for the project                                                        |
 | `external/`     | Public data downloaded for the analysis, provided by neither the Crick nor the collaborator    |
 | `derived/`      | Links to products of `working/` analyses, for example the index of a custom genome             |
+| `private/`      | Data that Claude must not read; READMEs excepted                                               |
+| `synthetic/`    | Made-up data with the same structure as `private/`, for writing and testing code               |
 
 Published reference data (for example genome FASTA and annotation) is not kept here; it belongs in `resources/references/`. Data that has been modified by a collaborator or for this project (for example a genome with an added gene) is data and is kept here; the analysis that combines it with the reference is run in `working/`.
 

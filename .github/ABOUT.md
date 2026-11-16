@@ -50,6 +50,8 @@ This repository is a template for bioinformatics projects. The root `README.md` 
 | Public dataset downloaded from GEO               | `data/external/`                                  |
 | Genome with a gene added by a collaborator       | `data/`, with the index built in `working/`       |
 | Link to the index of a custom genome             | `data/derived/`                                   |
+| Data that Claude must not read                   | `data/private/`                                   |
+| Made-up stand-in for the data in `data/private/` | `data/synthetic/`                                 |
 | Published genome FASTA or GTF (for example mm10) | `resources/references/`                           |
 | GitHub repository used by the analysis           | `resources/github/<owner>/<repo>/` as a submodule |
 | Manual or vignette for a package                 | `resources/docs/<package>/`                       |
@@ -174,7 +176,7 @@ Claude Code is kept away from the project's data by `.claude/settings.json`. Its
 
 The sandbox is an operating-system feature (on Linux, `bwrap`, bubblewrap) that Claude Code wraps around each Bash command Claude runs. The kernel limits which files the command, and every program it starts, can read or write, so Python, `grep` and `xargs` are covered as well as `cat`.
 
-The permission rules in `.claude/settings.json` govern only Claude's own file tools. Bash reaches the same files by other routes (`cat`, `python -c`, `grep -r`), so without the sandbox a deny rule on `data/` would cover one tool and leave Bash open. The sandbox applies the same rules to Bash and enforces them in the operating system, not through Claude's willingness to follow instructions. Parsing Bash commands to guess which files they touch is fragile (`env cat` defeats it), so the template does not try. This matters because anything Claude reads is sent to the model provider.
+The permission rules in `.claude/settings.json` govern only Claude's own file tools. Bash reaches the same files by other routes (`cat`, `python -c`, `grep -r`), so without the sandbox a deny rule on `private/` would cover one tool and leave Bash open. The sandbox applies the same rules to Bash and enforces them in the operating system, not through Claude's willingness to follow instructions. Parsing Bash commands to guess which files they touch is fragile (`env cat` defeats it), so the template does not try. This matters because anything Claude reads is sent to the model provider.
 
 What it does not do:
 
@@ -189,7 +191,7 @@ What it costs:
 - Inside a Claude session, files the sandbox protects or hides appear as empty character devices, so `ls -l` and `git status` can look odd there. Outside Claude they are normal.
 - Switching git branches inside Claude fails when `.claude/settings.json` differs between them. Switch from an ordinary terminal.
 - Commands that need your home directory, or setuid programs, can fail (see [running R in a container](#running-r-in-a-container)).
-- The per-command overhead on a large `data/` tree has not been measured.
+- The per-command overhead on a large `private/` tree has not been measured.
 
 ### Getting started
 
@@ -219,7 +221,8 @@ project/
 │   ├── settings.local.json       your "don't ask again" approvals; git-ignored
 │   └── rules/*.md                instructions; loaded at start, or with paths: when matching files are used
 ├── data/
-│   └── **/README.md              readable; every other file in data/ is not
+│   └── private/                  any directory named private, at any depth
+│       └── **/README.md          readable; every other file in private/ is not
 └── working/<analysis>/
     ├── CLAUDE.md                 loaded when Claude first reads or edits a file here
     ├── .claude/rules/*.md        loaded on demand, the same way
@@ -243,10 +246,10 @@ project/
 
 | Path                                         | Read tool | Bash: names                                 | Bash: contents                                    | Set by                                           |
 | :------------------------------------------- | :-------- | :------------------------------------------ | :------------------------------------------------ | :----------------------------------------------- |
-| `data/`, files with an extension             | Denied    | Listed                                      | Denied                                            | `permissions.deny` (copied to the sandbox)       |
-| `data/`, files with no extension             | Ask       | Listed                                      | Readable (known gap)                              | `permissions.ask`                                |
-| `data/README.md`; nested READMEs             | Read; ask | Listed                                      | Readable                                          | `!` carve-outs; `sandbox.filesystem.allowRead`   |
-| `data/.gitignore`; nested ones               | Read; ask | Listed                                      | Readable, so git can apply them                   | `!` carve-outs; `sandbox.filesystem.allowRead`   |
+| `private/`, files with an extension          | Denied    | Listed                                      | Denied                                            | `permissions.deny` (copied to the sandbox)       |
+| `private/`, files with no extension          | Ask       | Listed                                      | Readable (known gap)                              | `permissions.ask`                                |
+| `private/` READMEs, at any depth             | Read; ask | Listed                                      | Readable                                          | `!` carve-outs; `sandbox.filesystem.allowRead`   |
+| `private/` `.gitignore` files                | Read; ask | Listed                                      | Readable, so git can apply them                   | `!` carve-outs; `sandbox.filesystem.allowRead`   |
 | `inputs/`, files with an extension           | Denied    | Listed, including inside linked directories | Denied                                            | `permissions.deny` (copied to the sandbox)       |
 | `inputs/`, files and links with no extension | Ask       | Listed                                      | Readable, unless the target is denied (known gap) | `permissions.ask`                                |
 | `outputs/`                                   | Ask       | Listed                                      | Denied, except files with no extension            | `permissions.ask`; `sandbox.filesystem.denyRead` |
@@ -278,15 +281,15 @@ JSON has no comments, so this table explains the keys and rules used in `.claude
 
 #### File types
 
-The data formats denied everywhere are a hand-curated list of extensions, in lowercase, sorted by extension in `deny`. Formats that are often compressed are denied with any further suffix too (`Read(**/*.fastq.*)` covers `x.fastq.gz` and its indexes), without denying compressed files in general. It is not binary detection: a format missing from the list is readable outside `data/` and `inputs/`, so add new formats by hand.
+The data formats denied everywhere are a hand-curated list of extensions, in lowercase, sorted by extension in `deny`. Formats that are often compressed are denied with any further suffix too (`Read(**/*.fastq.*)` covers `x.fastq.gz` and its indexes), without denying compressed files in general. It is not binary detection: a format missing from the list is readable outside `private/` and `inputs/`, so add new formats by hand.
 
 Matching is case-sensitive. Add each case variant you need (`Read(**/*.RDS)`) as its own line beside the lowercase rule; brace lists such as `*.{rds,RDS}` do not work.
 
 #### Known gaps
 
-- Files with no extension in `data/`, `inputs/` and `outputs/` are readable from Bash.
-- A link in `inputs/` whose own name has no extension is readable from Bash if its target is outside `data/`. Keep the extension when making a link.
-- A directory in `data/` with a dot in its name is hidden whole from Bash, names included.
+- Files with no extension in `private/`, `inputs/` and `outputs/` are readable from Bash.
+- A link in `inputs/` whose own name has no extension is readable from Bash if its target is outside a `private/` directory. Keep the extension when making a link.
+- A directory in `private/` with a dot in its name is hidden whole from Bash, names included.
 - Claude sees Claude Code's own denial text, not a custom message.
 
 ### Analysis-specific settings

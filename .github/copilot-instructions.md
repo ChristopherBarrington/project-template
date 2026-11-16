@@ -18,7 +18,7 @@ This file provides GitHub Copilot with persistent context about this project. Th
 
 Further conventions:
 
-- `data/` holds collaborator, Crick and public (`external/`) data and links to analysis products (`derived/`). Published references (for example mm10) belong in `resources/references/`.
+- `data/` holds collaborator, Crick and public (`external/`) data and links to analysis products (`derived/`). Restricted data goes in `private/`, with a made-up stand-in of the same structure in `synthetic/` for writing and testing code. Published references (for example mm10) belong in `resources/references/`.
 - `share/` contains no output files, only links to results in `working/`. Results are never stored outside `working/`.
 - Analyses in `working/` are structured hierarchically (for example `working/<topic>/<tool>`), with `inputs/`, `outputs/`, `logs/` and `renv/` ignored by git.
 - `README.md` files are tracked everywhere, including in otherwise-ignored directories.
@@ -28,7 +28,7 @@ Further conventions:
 
 Listing file names anywhere is fine; reading files is restricted:
 
-- `data/` holds primary data and is not read, except its `README.md` files.
+- Directories named `private/`, at any depth (for example `data/private/`), hold restricted data and are not read, except their `README.md` files.
 - The contents of an analysis's `inputs/` are never read.
 - Files in an analysis's `outputs/` are read only when the user names them.
 - Large data formats are never read, wherever they are: reads and alignments (FASTQ, SAM, BAM, CRAM and their indexes, FAST5, POD5, BCL), sequences (FASTA), variants (VCF, BCF), tracks and contacts (bigWig, bigBed, Hi-C, cool), matrices and objects (MTX, HDF5, h5ad, Seurat, loom, RDS, RData, qs, Feather, Parquet, Arrow, NumPy, pickle, Zarr) and images (TIFF, CZI, ND2, LIF, IMS).
