@@ -18,20 +18,21 @@ This repository is a template for bioinformatics projects. The root `README.md` 
 
 ### Repository structure
 
-| Path         | Purpose                                                                                 |
-| :----------- | :-------------------------------------------------------------------------------------- |
-| `bin/`       | Optional executables and scripts for the whole project                                  |
-| `data/`      | Input data: collaborator, Crick, public, derived, `private/` and `synthetic/`           |
-| `docs/`      | Documentation about the project and its biology                                         |
-| `envs/`      | Environment definitions: `conda/`, `apptainer/` and `singularity/`                      |
-| `resources/` | Computational reference material: repositories, software, published genomes             |
-| `scratch/`   | Untracked dumping ground; ignored at any depth                                          |
-| `share/`     | Links to results in `working/`, organised for sharing with collaborators and GEO        |
-| `working/`   | Where analyses are run and all results are stored; `nf-core/` for nf-core pipeline runs |
-| `.claude/`   | Claude Code settings (permissions and sandbox) and the rules Claude follows             |
-| `.github/`   | GitHub templates, community health files and this file                                  |
-| `CLAUDE.md`  | Project context and data access instructions for Claude Code                            |
-| `README.md`  | Project landing page: aims, collaborators, data and main analyses                       |
+| Path            | Purpose                                                                                 |
+| :-------------- | :-------------------------------------------------------------------------------------- |
+| `bin/`          | Optional executables and scripts for the whole project                                  |
+| `data/`         | Input data: collaborator, Crick, public, derived, `private/` and `synthetic/`           |
+| `docs/`         | Documentation about the project and its biology                                         |
+| `environments/` | Package environments: conda, renv and uv recipes and lockfiles                          |
+| `resources/`    | Computational reference material: repositories, documentation, published genomes        |
+| `scratch/`      | Untracked dumping ground; ignored at any depth                                          |
+| `share/`        | Links to results in `working/`, organised for sharing with collaborators and GEO        |
+| `software/`     | Launchers, container definitions and binaries, linked from `bin/`                       |
+| `working/`      | Where analyses are run and all results are stored; `nf-core/` for nf-core pipeline runs |
+| `.claude/`      | Claude Code settings (permissions and sandbox) and the rules Claude follows             |
+| `.github/`      | GitHub templates, community health files and this file                                  |
+| `CLAUDE.md`     | Project context and data access instructions for Claude Code                            |
+| `README.md`     | Project landing page: aims, collaborators, data and main analyses                       |
 
 ### Where does this file go?
 
@@ -48,8 +49,10 @@ This repository is a template for bioinformatics projects. The root `README.md` 
 | GitHub repository used by the analysis           | `resources/github/<owner>/<repo>/` as a submodule |
 | Manual or vignette for a package                 | `resources/docs/<package>/`                       |
 | Paper, protocol or slides about the biology      | `docs/`                                           |
-| Conda recipe or environment                      | `envs/conda/`                                     |
-| Apptainer or Singularity image or definition     | `envs/apptainer/` or `envs/singularity/`          |
+| Conda recipe or environment                      | `environments/conda/`                             |
+| renv or uv lockfile                              | `environments/renv/` or `environments/uv/`        |
+| Dockerfile or Apptainer/Singularity definition   | `software/<tool>/<version>/`                      |
+| Launcher or compiled binary                      | `software/`, with a link in `bin/`                |
 | Script reused across analyses                    | `bin/`                                            |
 | Code and results of an analysis                  | `working/<topic>/<tool>/`                         |
 | Run of an nf-core pipeline                       | `working/nf-core/<pipeline>/`                     |
@@ -145,11 +148,11 @@ template=resources/github/ChristopherBarrington/project-template
 for target in \
 	.gitignore \
 	data/.gitignore \
-	envs/apptainer/.gitignore \
-	envs/conda/.gitignore \
-	envs/singularity/.gitignore \
+	environments/.gitignore \
+	environments/conda/.gitignore \
 	resources/.gitignore \
 	share/.gitignore \
+	software/.gitignore \
 	working/.gitignore \
 	working/nf-core/.gitignore \
 	resources/README.md \
@@ -372,10 +375,10 @@ All of these use the project's settings when started at the root:
 ### Dependencies
 
 - Claude Code 2.1.295 or later.
-- `bwrap` and `socat` on `PATH`, from the system or from `envs/conda/claude-sandbox.yaml`. With the conda environment, activate it before starting `claude`.
+- `bwrap` and `socat` on `PATH`, from the system or from `environments/conda/claude-sandbox.yaml`. With the conda environment, activate it before starting `claude`.
 
 ```bash
-conda env create --file envs/conda/claude-sandbox.yaml
+conda env create --file environments/conda/claude-sandbox.yaml
 conda activate claude-sandbox
 ```
 

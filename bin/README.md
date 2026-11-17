@@ -2,10 +2,10 @@
 
 Optional. Executables and scripts for the whole project, such as:
 
-- launchers for project-wide software, for example an Apptainer/Singularity wrapper for a specific version of R or a downloaded tool
+- links to launchers and binaries in `software/`, for example `bin/R` linking to an Apptainer/Singularity wrapper for a specific version of R
 - scripts written by the analyst that are reused across analyses
 
-Container and environment definitions are kept in `envs/`; `bin/` holds the executables that use them. Large downloaded software belongs in `resources/src/`, with only a launcher kept here.
+Launchers, container definitions and binaries are kept in `software/`, and package environments in `environments/`; `bin/` holds the executables that use them.
 
 Analyses in `working/` can have their own `bin/` with the same meaning.
 

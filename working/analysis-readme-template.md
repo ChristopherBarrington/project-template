@@ -16,7 +16,7 @@ One or two sentences on the purpose of the analysis and the question it answers.
 
 ## How to run
 
-The script, workflow or commands needed, in order, and the environment they need (`envs/`, `renv/`, a container). For example:
+The script, workflow or commands needed, in order, and the environment they need (`environments/`, a launcher in `bin/`). For example:
 
 ```bash
 bash run.sh
