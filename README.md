@@ -1,8 +1,4 @@
-# project title
-
-[babs-stp project]: https://github.com/ChristopherBarrington/{babs project hash}
-
-This is a [BABS-STP project][babs-stp project].
+# Project Title
 
 ## Background
 
