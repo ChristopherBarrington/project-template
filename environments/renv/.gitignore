@@ -1,0 +1,5 @@
+# track only the lockfile; renv writes everything else again
+*
+!.gitignore
+!README.md
+!renv.lock

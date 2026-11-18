@@ -1,7 +1,0 @@
-# ignore renv package libraries and caches
-renv/renv/library/
-renv/renv/staging/
-renv/renv/local/
-
-# ignore uv virtual environments
-**/.venv/

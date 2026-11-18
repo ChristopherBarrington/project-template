@@ -148,8 +148,9 @@ template=resources/github/ChristopherBarrington/project-template
 for target in \
 	.gitignore \
 	data/.gitignore \
-	environments/.gitignore \
 	environments/conda/.gitignore \
+	environments/renv/.gitignore \
+	environments/uv/.gitignore \
 	resources/.gitignore \
 	share/.gitignore \
 	software/.gitignore \
