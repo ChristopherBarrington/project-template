@@ -11,7 +11,7 @@ Analyses in `working/` can have their own `bin/` with the same meaning.
 
 ## Launchers and Claude Code
 
-Claude Code runs Bash commands in a sandbox, and Apptainer/Singularity cannot start inside it. A launcher that wraps a container therefore needs two entries in [`.claude/settings.json`](../.claude/settings.json), using the name the launcher is invoked by (for example `R`, not `./R`):
+When the sandbox is on, Claude Code runs Bash commands inside it, and Apptainer/Singularity cannot start there. A launcher that wraps a container therefore needs two entries in [`.claude/settings.json`](../.claude/settings.json), using the name the launcher is invoked by (for example `R`, not `./R`):
 
 - an `ask` permission, so that each run prompts: `"Bash(R:*)"`
 - an `excludedCommands` entry, so that it runs outside the sandbox: `"R"`

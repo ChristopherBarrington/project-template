@@ -31,12 +31,14 @@
 		]
 	},
 	"sandbox": {
-		"enabled": true,
+		"enabled": false,
 		"failIfUnavailable": false,
 		"allowUnsandboxedCommands": true,
 		"excludedCommands": [
 			"apptainer",
 			"conda",
+			"gh",
+			"git",
 			"R",
 			"Rscript",
 			"singularity",

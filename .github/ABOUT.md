@@ -169,7 +169,10 @@ done
 
 ## Claude Code
 
-Claude Code is kept away from the project's data by `.claude/settings.json`. Its permission rules govern Claude's file tools and its sandbox governs every command Claude runs in Bash. These are enforced by Claude Code, not left to Claude's judgement. `CLAUDE.md` gives Claude the project's context, and `.claude/rules/project-rules.md` gives it the same rules as instructions.
+Claude Code is kept away from the project's data by `.claude/settings.json`. Its permission rules govern Claude's file tools, and are enforced by Claude Code, not left to Claude's judgement. Its sandbox would govern every command Claude runs in Bash, but is off by default (see [Turning the sandbox on](#turning-the-sandbox-on)). `CLAUDE.md` gives Claude the project's context, and `.claude/rules/project-rules.md` gives it the same rules as instructions.
+
+> [!WARNING]
+> With the sandbox off, Bash can read any file in the project, including `private/` and `inputs/`. Only the rules in `.claude/rules/project-rules.md`, which Claude follows by instruction, keep Bash away from the data.
 
 ### What the sandbox is, and why
 
@@ -181,7 +184,7 @@ What it does not do:
 
 - It does not stop data leaving over the network: `allowedDomains` is `*`, so that Claude can read websites. It guards against mistakes and against Claude working round a rule, not against a determined attacker.
 - It has the [known gaps](#known-gaps) below.
-- It can be switched off. The `/sandbox` menu offers a "No Sandbox" mode, and `failIfUnavailable` covers only a missing dependency, so check that `/sandbox` shows it on before relying on it.
+- It is off by default, and can be switched off again from the `/sandbox` menu ("No Sandbox"), so check that `/sandbox` shows it on before relying on it.
 
 What it costs:
 
@@ -192,11 +195,29 @@ What it costs:
 - Commands that need your home directory, or setuid programs, can fail (see [running R in a container](#running-r-in-a-container)).
 - The per-command overhead on a large `private/` tree has not been measured.
 
+#### Turning the sandbox on
+
+In `.claude/settings.json`, set:
+
+```json
+"sandbox": {
+	"enabled": true,
+	"failIfUnavailable": true,
+	"allowUnsandboxedCommands": false
+}
+```
+
+- `enabled` turns it on; it needs the [dependencies](#dependencies).
+- `failIfUnavailable` makes Claude Code refuse to start, rather than run unsandboxed, when the dependencies are missing.
+- `allowUnsandboxedCommands` set to `false` stops Claude from retrying a failed command outside the sandbox. Left `true`, Claude can ask to do so.
+
+The rest of this section describes the rules as they apply with the sandbox on.
+
 ### Getting started
 
-1. Install Claude Code and the sandbox's dependencies (see [Dependencies](#dependencies)).
+1. Install Claude Code, and the sandbox's dependencies if you turn it on (see [Dependencies](#dependencies)).
 2. Start `claude` at the project root.
-3. Type `/status` to check that the project's settings are loaded, and `/sandbox` to check that the sandbox is on.
+3. Type `/status` to check that the project's settings are loaded, and `/sandbox` to check whether the sandbox is on.
 4. To work on an analysis, ask Claude to `cd working/<analysis>` rather than starting Claude there.
 
 ### Where to start Claude
@@ -239,7 +260,7 @@ project/
 
 ### What the settings enforce
 
-`permissions` governs the Read tool and `sandbox.filesystem` governs Bash. Every `permissions.deny` rule is also copied into the sandbox, but ask rules and `!` carve-outs are not. So a path denied to both tools needs one rule, and a path that asks in the Read tool needs a second rule for Bash.
+`permissions` governs the Read tool and `sandbox.filesystem` governs Bash, when the sandbox is on. With it off, Bash can read everything and the Bash columns below do not apply. Every `permissions.deny` rule is also copied into the sandbox, but ask rules and `!` carve-outs are not. So a path denied to both tools needs one rule, and a path that asks in the Read tool needs a second rule for Bash.
 
 #### Per directory
 
@@ -254,7 +275,7 @@ project/
 | `outputs/`                                   | Ask       | Listed                                      | Denied, except files with no extension            | `permissions.ask`; `sandbox.filesystem.denyRead` |
 | Listed formats, anywhere                     | Denied    | Listed                                      | Denied                                            | `permissions.deny` (copied to the sandbox)       |
 
-"Ask" means Claude asks each time; "Yes, and don't ask again" does not stop it. Commands in the sandbox can write only inside the start directory and the temporary directory, and never to `.claude/` settings. Claude Code always asks before its Write or Edit tool changes a settings file.
+"Ask" means Claude asks each time; "Yes, and don't ask again" does not stop it. With the sandbox on, commands can write only inside the start directory and the temporary directory, and never to `.claude/` settings. Claude Code always asks before its Write or Edit tool changes a settings file.
 
 When something is denied, the Read tool returns an error naming the setting and Bash prints `Permission denied`. A subagent receives the denial itself, so it reaches you only if the subagent's summary mentions it.
 
@@ -299,7 +320,7 @@ An extra deny or ask for one analysis goes in the root `.claude/settings.json`, 
 
 #### An analysis's own settings file
 
-To loosen a rule for one analysis, for example to let Claude read one file type there, write `working/<analysis>/.claude/settings.json` and start Claude there (or `/cd` there). It replaces the project's file rather than extending it, so it is written for the analysis alone:
+To loosen a rule for one analysis, for example to let Claude read one file type there, write `working/<analysis>/.claude/settings.json` and start Claude there (or `/cd` there). It replaces the project's file rather than extending it, so it is written for the analysis alone. The example turns the sandbox on for the analysis, which its `denyRead` rule needs:
 
 - **Nothing above the analysis is visible.** `blockReadsOutsideWorkingDirectories` makes the Read tool refuse any path outside the analysis. `denyRead: ["../.."]` hides the project root, and everything in it but the analysis, from Bash.
 - **Outputs are asked for by type.** List the extensions the analysis writes that Claude should not read unasked, once in `ask` and once in `denyRead`. Other outputs are read freely.
@@ -371,19 +392,19 @@ All of these use the project's settings when started at the root:
 - **Extension:** Command Palette, "Claude Code: Open in New Tab", once per conversation.
 
 > [!WARNING]
-> Many sessions at once in one project occasionally fail a Bash command with `bwrap: Can't find source path …/.claude/settings.local.json`. It fails closed: the command does not run. Run it again.
+> With the sandbox on, many sessions at once in one project occasionally fail a Bash command with `bwrap: Can't find source path …/.claude/settings.local.json`. It fails closed: the command does not run. Run it again.
 
 ### Dependencies
 
 - Claude Code 2.1.295 or later.
-- `bwrap` and `socat` on `PATH`, from the system or from `environments/conda/claude-sandbox.yaml`. With the conda environment, activate it before starting `claude`.
+- To turn the sandbox on, `bwrap` and `socat` on `PATH`, from the system or from `environments/conda/claude-sandbox.yaml`. With the conda environment, activate it before starting `claude`.
 
 ```bash
 conda env create --file environments/conda/claude-sandbox.yaml
 conda activate claude-sandbox
 ```
 
-Check with `/sandbox` in a session. Without them, Claude Code refuses to start in the project (`failIfUnavailable`).
+Check with `/sandbox` in a session. Without them, and with `failIfUnavailable` set to `true`, Claude Code refuses to start in the project.
 
 ## AI Model Tiers
 
