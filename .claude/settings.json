@@ -2,27 +2,12 @@
 	"$schema": "https://json.schemastore.org/claude-code-settings.json",
 	"permissions": {
 		"deny": [
-			"Read(**/private/**/*.*)",
+			"Read(**/private/**)",
 			"Read(!**/private/**/README.md)",
-			"Read(!**/private/**/.gitignore)",
-			"Read(working/**/inputs/**/*.*)",
-			"Read(**/*.bai)",
-			"Read(**/*.bam)",
-			"Read(**/*.crai)",
-			"Read(**/*.cram)",
-			"Read(**/*.fastq)",
-			"Read(**/*.fastq.*)",
-			"Read(**/*.qs2)",
-			"Read(**/*.rds)",
-			"Read(**/*.sam)",
-			"Read(**/*.sam.*)"
+			"Read(working/**/inputs/**/*.*)"
 		],
 		"ask": [
 			"Bash(apptainer:*)",
-			"Read(**/private/**)",
-			"Read(!**/private/**/README.md)",
-			"Bash(R:*)",
-			"Bash(Rscript:*)",
 			"Bash(sbatch:*)",
 			"Bash(singularity:*)",
 			"Bash(srun:*)",
@@ -31,22 +16,16 @@
 		]
 	},
 	"sandbox": {
-		"enabled": false,
+		"enabled": true,
 		"failIfUnavailable": false,
 		"allowUnsandboxedCommands": true,
 		"excludedCommands": [
-			"apptainer",
-			"conda",
-			"gh",
+			"apptainer *",
 			"git",
-			"R",
-			"Rscript",
-			"singularity",
-			"squeue"
+			"singularity *"
 		],
 		"filesystem": {
 			"allowRead": [
-				"**/private/**/.gitignore",
 				"**/private/**/README.md"
 			]
 		},
@@ -55,3 +34,4 @@
 		}
 	}
 }
+ 
