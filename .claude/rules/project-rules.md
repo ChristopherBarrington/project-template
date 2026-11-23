@@ -9,8 +9,8 @@ Listing file names anywhere is fine; reading files is restricted:
 - Directories named `private/`, at any depth (for example `data/private/`), hold restricted data and are not read, except their `README.md` files.
 - The contents of an analysis's `inputs/` are never read.
 - Files in an analysis's `outputs/` are read only when the user names them.
-- Large data formats are never read, wherever they are: reads and alignments (FASTQ, SAM, BAM, CRAM and their indexes, FAST5, POD5, BCL), sequences (FASTA), variants (VCF, BCF), tracks and contacts (bigWig, bigBed, Hi-C, cool), matrices and objects (MTX, HDF5, h5ad, Seurat, loom, RDS, RData, qs, Feather, Parquet, Arrow, NumPy, pickle, Zarr) and images (TIFF, CZI, ND2, LIF, IMS).
-- Files with no extension in `private/` directories or `inputs/` are not read.
+- Large data formats are not read outside `data/synthetic/`: reads and alignments (FASTQ, SAM, BAM, CRAM and their indexes, FAST5, POD5, BCL), sequences (FASTA), variants (VCF, BCF), tracks and contacts (bigWig, bigBed, Hi-C, cool), matrices and objects (MTX, HDF5, h5ad, Seurat, loom, RDS, RData, qs, Feather, Parquet, Arrow, NumPy, pickle, Zarr) and images (TIFF, CZI, ND2, LIF, IMS).
+- Files with no extension in `inputs/` are not read.
 - Paths starting with `_` are inactive and are ignored.
 
 Reads are denied deliberately by `.claude/settings.json`. If a read is denied, stop and tell the user; do not work round it. How the settings work, and their known gaps, are described in the "Claude Code" section of `.github/ABOUT.md`.

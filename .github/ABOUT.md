@@ -267,14 +267,11 @@ project/
 
 | Path                                         | Read tool | Bash: names                                 | Bash: contents                                    | Set by                                           |
 | :------------------------------------------- | :-------- | :------------------------------------------ | :------------------------------------------------ | :----------------------------------------------- |
-| `private/`, files with an extension          | Denied    | Listed                                      | Denied                                            | `permissions.deny` (copied to the sandbox)       |
-| `private/`, files with no extension          | Ask       | Listed                                      | Readable (known gap)                              | `permissions.ask`                                |
-| `private/` READMEs, at any depth             | Read; ask | Listed                                      | Readable                                          | `!` carve-outs; `sandbox.filesystem.allowRead`   |
-| `private/` `.gitignore` files                | Read; ask | Listed                                      | Readable, so git can apply them                   | `!` carve-outs; `sandbox.filesystem.allowRead`   |
+| `private/`, anywhere in the project          | Denied    | Listed                                      | Denied                                            | `permissions.deny` (copied to the sandbox)       |
+| `private/` READMEs, at any depth             | Read      | Listed                                      | Readable                                          | `!` carve-out; `sandbox.filesystem.allowRead`    |
 | `inputs/`, files with an extension           | Denied    | Listed, including inside linked directories | Denied                                            | `permissions.deny` (copied to the sandbox)       |
 | `inputs/`, files and links with no extension | Ask       | Listed                                      | Readable, unless the target is denied (known gap) | `permissions.ask`                                |
-| `outputs/`                                   | Ask       | Listed                                      | Denied, except files with no extension            | `permissions.ask`; `sandbox.filesystem.denyRead` |
-| Listed formats, anywhere                     | Denied    | Listed                                      | Denied                                            | `permissions.deny` (copied to the sandbox)       |
+| `outputs/`                                   | Ask       | Listed                                      | Readable (known gap)                              | `permissions.ask`                                |
 
 "Ask" means Claude asks each time; "Yes, and don't ask again" does not stop it. With the sandbox on, commands can write only inside the start directory and the temporary directory, and never to `.claude/` settings. Claude Code always asks before its Write or Edit tool changes a settings file.
 
@@ -298,19 +295,15 @@ JSON has no comments, so this table explains the keys and rules used in `.claude
 | Path forms in `Read(...)`                         | `data/x` or `./data/x`: from the start directory; `/x`: from the project root; `//x`: absolute; `~/x`: home; `*.x`: any depth. `*` stays within one directory, `**` crosses them                                                                             |
 | `sandbox.filesystem.denyRead` / `allowRead`       | What Bash, and every program it starts, can read. Paths: `data/x` or `./data/x` from the project root; `/x` absolute (not project-relative, unlike `Read`); `~/x` home                                                                                       |
 | `sandbox.filesystem.allowWrite`                   | Extra places Bash may write. Not used                                                                                                                                                                                                                        |
+| `sandbox.excludedCommands`                        | Commands that run outside the sandbox when it is on, so they can read `private/`. Only `apptainer` and `singularity`, which cannot start inside it; both are also in `ask`                                                                                   |
+| `sandbox.allowUnsandboxedCommands`                | Lets a command that fails in the sandbox be retried outside it. Claude asks before the retry                                                                                                                                                                 |
 | `sandbox.network.allowedDomains`                  | Where Bash may connect. `*` is everywhere                                                                                                                                                                                                                    |
-
-#### File types
-
-The data formats denied everywhere are a hand-curated list of extensions, in lowercase, sorted by extension in `deny`. Formats that are often compressed are denied with any further suffix too (`Read(**/*.fastq.*)` covers `x.fastq.gz` and its indexes), without denying compressed files in general. It is not binary detection: a format missing from the list is readable outside `private/` and `inputs/`, so add new formats by hand.
-
-Matching is case-sensitive. Add each case variant you need (`Read(**/*.RDS)`) as its own line beside the lowercase rule; brace lists such as `*.{rds,RDS}` do not work.
 
 #### Known gaps
 
-- Files with no extension in `private/`, `inputs/` and `outputs/` are readable from Bash.
+- Files in `outputs/`, and files with no extension in `inputs/`, are readable from Bash, because ask rules are not passed to the sandbox.
 - A link in `inputs/` whose own name has no extension is readable from Bash if its target is outside a `private/` directory. Keep the extension when making a link.
-- A directory in `private/` with a dot in its name is hidden whole from Bash, names included.
+- Subdirectories of a `private/` directory may be hidden whole from Bash, names included.
 - Claude sees Claude Code's own denial text, not a custom message.
 
 ### Analysis-specific settings
@@ -325,7 +318,6 @@ To loosen a rule for one analysis, for example to let Claude read one file type 
 
 - **Nothing above the analysis is visible.** `blockReadsOutsideWorkingDirectories` makes the Read tool refuse any path outside the analysis. `denyRead: ["../.."]` hides the project root, and everything in it but the analysis, from Bash.
 - **Outputs are asked for by type.** List the extensions the analysis writes that Claude should not read unasked, once in `ask` and once in `denyRead`. Other outputs are read freely.
-- **The format list is copied** from the project's `.claude/settings.json`, in the same order. It goes stale when that changes, so diff the two after a template update.
 
 ```json
 {
@@ -333,10 +325,7 @@ To loosen a rule for one analysis, for example to let Claude read one file type 
 	"permissions": {
 		"blockReadsOutsideWorkingDirectories": true,
 		"deny": [
-			"Read(inputs/**/*.*)",
-			"Read(**/*.bam)",
-			"Read(**/*.fastq)",
-			"Read(**/*.fastq.*)"
+			"Read(inputs/**/*.*)"
 		],
 		"ask": [
 			"Read(inputs/**/*)",
@@ -361,8 +350,6 @@ To loosen a rule for one analysis, for example to let Claude read one file type 
 	}
 }
 ```
-
-The format rules are shortened here: paste the full list from the project's file in place of the three format lines.
 
 Sorry, there is a manual step. The `denyRead` path is relative and depends on the analysis's depth: `../..` for `working/<analysis>`, `../../..` one level deeper. No setting means "the project root", and an absolute path breaks when the project is moved or cloned. Too short, the path fails open; too long, it also hides the directory holding the project. Any of these, run from inside the analysis, prints it:
 
