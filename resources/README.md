@@ -8,7 +8,7 @@ Computational reference material: things the analysis _uses_ rather than _analys
 | `docs/<software>/`          | Software documentation: manuals, guides, vignettes              |
 | `references/<source>/<id>/` | Published reference data: genome FASTA, GTF, annotation         |
 
-If it exists without this project, it belongs here. If it exists because of this project (for example a genome with a gene added by a collaborator), it is data: see `data/`.
+If it is published (for example an Ensembl genome), it belongs here. A custom genome, including one from a collaborator, is data and belongs in `data/`. Anything built for this project, such as an index, is built in `working/`.
 
 For Git(Hub) repositories, the directory should be structured by host, owner and repository: `github/owner/repository`. Similarly, for GitLab it would be a `gitlab` subdirectory.
 

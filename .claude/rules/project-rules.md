@@ -17,7 +17,8 @@ Reads are denied deliberately by `.claude/settings.json`. If a read is denied, s
 
 ## Where things go
 
-- Analyses are run, and all their results kept, in `working/`. Results are never stored anywhere else; `share/` and `data/derived/` hold only links to them.
+- Analyses are run, and all their results kept, in `working/`. Results are never stored anywhere else; `share/` and other analyses' `inputs/` hold only links to them.
+- Published references (for example Ensembl genome FASTA and GTF) go in `resources/references/`. A custom genome, including one from a collaborator, is data and goes in `data/`.
 - Restricted data goes in a `private/` directory. To write or test code against it, use the stand-in with the same structure in `data/synthetic/`.
 
 ## Working in the project

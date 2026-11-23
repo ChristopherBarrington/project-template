@@ -21,7 +21,7 @@ This repository is a template for bioinformatics projects. The root `README.md` 
 | Path            | Purpose                                                                                 |
 | :-------------- | :-------------------------------------------------------------------------------------- |
 | `bin/`          | Optional executables and scripts for the whole project                                  |
-| `data/`         | Input data: collaborator, Crick, public, derived, `private/` and `synthetic/`           |
+| `data/`         | Input data: collaborator, Crick, public, `private/` and `synthetic/`                    |
 | `docs/`         | Documentation about the project and its biology                                         |
 | `environments/` | Package environments: conda, renv and uv recipes and lockfiles                          |
 | `resources/`    | Computational reference material: repositories, documentation, published genomes        |
@@ -41,8 +41,9 @@ This repository is a template for bioinformatics projects. The root `README.md` 
 | FASTQ files from the collaborator or Crick       | `data/primary_data/`                              |
 | Sample sheet or cell type classifications        | `data/`                                           |
 | Public dataset downloaded from GEO               | `data/external/`                                  |
-| Genome with a gene added by a collaborator       | `data/`, with the index built in `working/`       |
-| Link to the index of a custom genome             | `data/derived/`                                   |
+| Custom genome FASTA or GTF                       | `data/`                                           |
+| Index of a custom genome                         | built in `working/`                               |
+| Link to a custom index used by another analysis  | the `inputs/` of that analysis                    |
 | Data that Claude must not read                   | `data/private/`                                   |
 | Made-up stand-in for the data in `data/private/` | `data/synthetic/`                                 |
 | Published genome FASTA or GTF (for example mm10) | `resources/references/`                           |

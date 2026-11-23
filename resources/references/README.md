@@ -6,4 +6,4 @@ Organise by source and identifier, `references/<source>/<identifier>/`. These fi
 
 Record the source URL, version and checksum for each reference, in a README alongside it or in the download script.
 
-A reference modified by a collaborator or for this project (for example a genome with an added gene) is not a reference resource; it is project data. Build it in `working/` and link it from `data/derived/`.
+A custom genome, including one from a collaborator, is not a reference resource; it is data and belongs in `data/`. Build anything derived from it, such as an index, in `working/` and link it into the `inputs/` of the analyses that use it.

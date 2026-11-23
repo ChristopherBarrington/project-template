@@ -9,11 +9,10 @@ Files or directories in this directory will be symlinked from the working analys
 | `primary_data/` | Symlink to the Genomics STP per-project output                                                 |
 | `inputs/`       | Symlink to BABS' inputs for the project                                                        |
 | `external/`     | Public data downloaded for the analysis, provided by neither the Crick nor the collaborator    |
-| `derived/`      | Links to products of `working/` analyses, for example the index of a custom genome             |
 | `private/`      | Data that Claude must not read; READMEs excepted                                               |
 | `synthetic/`    | Made-up data with the same structure as `private/`, for writing and testing code               |
 
-Published reference data (for example genome FASTA and annotation) is not kept here; it belongs in `resources/references/`. Data that has been modified by a collaborator or for this project (for example a genome with an added gene) is data and is kept here; the analysis that combines it with the reference is run in `working/`.
+Published reference data (for example Ensembl genome FASTA and GTF) is not kept here; it belongs in `resources/references/`. A custom genome, including one sent by a collaborator, is data and is kept here. Anything built from it, such as an index, is built in `working/` and linked into the `inputs/` of the analyses that use it.
 
 The contents of `data/` are not tracked by git because the files are large; only READMEs are. Use `git add --force` for anything else that should be tracked, for example a setup script.
 

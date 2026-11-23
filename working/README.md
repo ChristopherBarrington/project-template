@@ -1,6 +1,6 @@
 # working/
 
-All working analyses for the project are kept here, and all results are stored here. Anything needed elsewhere is symlinked out: to `data/derived/` if it is an input to other analyses, or to `share/` if it is for the collaborator. Each analysis should be in its own sub-directory, with its code tracked via git.
+All working analyses for the project are kept here, and all results are stored here. An output used by another analysis is linked into that analysis's `inputs/`. An output for the collaborator is linked from `share/`. Each analysis should be in its own sub-directory, with its code tracked via git.
 
 The directory should be structured, not a flat directory of dozens of scripts for every analysis in the project. A convention is `working/<topic>/<tool>`, for example `working/cell-cell-communication/cell-chat` or `working/samtools/merge`, but it is not fixed and should be adapted to the analysis.
 
