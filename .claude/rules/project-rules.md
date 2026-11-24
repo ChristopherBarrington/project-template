@@ -8,7 +8,7 @@ Listing file names anywhere is fine; reading files is restricted:
 
 - Directories named `private/`, at any depth (for example `data/private/`), hold restricted data and are not read, except their `README.md` files.
 - The contents of an analysis's `inputs/` are never read.
-- Files in an analysis's `outputs/` are read only when the user names them.
+- Files in an analysis's `outputs/` are read only when the user names them or approves the read.
 - Large data formats are not read outside `data/synthetic/`: reads and alignments (FASTQ, SAM, BAM, CRAM and their indexes, FAST5, POD5, BCL), sequences (FASTA), variants (VCF, BCF), tracks and contacts (bigWig, bigBed, Hi-C, cool), matrices and objects (MTX, HDF5, h5ad, Seurat, loom, RDS, RData, qs, Feather, Parquet, Arrow, NumPy, pickle, Zarr) and images (TIFF, CZI, ND2, LIF, IMS).
 - Files with no extension in `inputs/` are not read.
 - Paths starting with `_` are inactive and are ignored.
@@ -24,5 +24,5 @@ Reads are denied deliberately by `.claude/settings.json`. If a read is denied, s
 ## Working in the project
 
 - Start at the project root, and `cd` to an analysis from there rather than starting Claude in it.
-- Write scripts for the user to run. Do not run them on the project's data.
+- Write scripts for the user to run. Run a script on the project's data, or submit it to the cluster, only when the user approves that run. Approval for one run does not cover the next.
 - Do not commit data, credentials or large binary files; only READMEs and small text files such as sample sheets or manifests are tracked from `data/`.
