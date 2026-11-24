@@ -13,6 +13,12 @@ A layout by tool, version and backend keeps several versions side by side, for e
 ```
 software/
 ├── r/
+│   ├── 4.5.2/
+│   │   └── babs-environments/
+│   │       ├── launcher -> R-4.5.2
+│   │       ├── python3 -> R-4.5.2
+│   │       ├── R -> R-4.5.2
+│   │       └── R-4.5.2
 │   └── 4.6.1/
 │       └── apptainer/
 │           └── launcher.sh
