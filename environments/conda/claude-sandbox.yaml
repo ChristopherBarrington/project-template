@@ -1,6 +1,0 @@
-name: claude-sandbox
-channels:
-  - conda-forge
-dependencies:
-  - bubblewrap
-  - socat

@@ -16,22 +16,6 @@
 		]
 	},
 	"sandbox": {
-		"enabled": true,
-		"failIfUnavailable": false,
-		"allowUnsandboxedCommands": true,
-		"excludedCommands": [
-			"apptainer *",
-			"git",
-			"singularity *"
-		],
-		"filesystem": {
-			"allowRead": [
-				"**/private/**/README.md"
-			]
-		},
-		"network": {
-			"allowedDomains": ["*"]
-		}
+		"enabled": false
 	}
 }
- 
