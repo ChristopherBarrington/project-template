@@ -62,6 +62,16 @@ This repository is a template for bioinformatics projects. The root `README.md` 
 | Files to upload to GEO                           | links in `share/geo/`                             |
 | Temporary files                                  | `scratch/`                                        |
 
+### Branches
+
+A project checkout stays on one branch. Analyses run from it, and some run for days.
+
+Switching branches (`git switch`, `git checkout`) changes the tracked files in the working tree. The scripts of any analysis that is not on the new branch are removed. A running Slurm job can then lose its scripts, and its outputs are left beside a directory with no code. Outputs are ignored by git, so they stay.
+
+Claude asks before it runs `git switch` or `git checkout` (see `.claude/settings.json`), and `.claude/rules/project-rules.md` tells it to commit to the checked-out branch. Git cannot block a switch made by hand, so check that nothing is running from the checkout before switching.
+
+An analysis's `proposal.md`, `check.md` and `report.html` are ignored, so they stay beside its `plan.md` on any branch. The project proposal in `docs/proposal/` is tracked.
+
 ### Publishing code
 
 A second git directory, `.git-public/`, can be kept in the same working tree. Its purpose is to publish the code with a separate history and remote, without the full development history or files (for example READMEs) that record discussion during the analysis. The main repository ignores it.

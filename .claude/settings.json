@@ -8,6 +8,8 @@
 		],
 		"ask": [
 			"Bash(apptainer:*)",
+			"Bash(git checkout:*)",
+			"Bash(git switch:*)",
 			"Bash(sbatch:*)",
 			"Bash(singularity:*)",
 			"Bash(srun:*)",

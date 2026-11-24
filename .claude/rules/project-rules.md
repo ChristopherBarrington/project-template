@@ -26,3 +26,9 @@ Reads are denied deliberately by `.claude/settings.json`. If a read is denied, s
 - Start at the project root, and `cd` to an analysis from there rather than starting Claude in it.
 - Write scripts for the user to run. Run a script on the project's data, or submit it to the cluster, only when the user approves that run. Approval for one run does not cover the next.
 - Do not commit data, credentials or large binary files; only READMEs and small text files such as sample sheets or manifests are tracked from `data/`.
+
+## Branches
+
+- Commit to the branch that is checked out. Do not create or switch branches unless the user asks. This rule overrides any user-level rule to commit on a separate branch.
+- Analyses run from the checkout, some for days. Switching branches removes the tracked scripts of any analysis that is not on the new branch, so a running job can lose its scripts and its outputs are left beside a directory with no code.
+- `git switch` and `git checkout` ask for approval in `.claude/settings.json`.

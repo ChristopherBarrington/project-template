@@ -15,3 +15,8 @@
 # ignore personal Claude Code settings and instructions
 **/.claude/settings.local.json
 **/CLAUDE.local.md
+
+# keep an analysis's proposal, results check and report beside its plan.md, but untracked
+working/**/proposal.md
+working/**/check.md
+working/**/report.html
