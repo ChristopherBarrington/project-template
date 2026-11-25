@@ -8,6 +8,9 @@
 # ignore a supplementary git repository (eg for publishing code with a separate history)
 .git-public/
 
+# ignore git worktrees kept inside the project
+.worktrees/
+
 # ignore the contents of any scratch directory, but track the top-level README
 **/scratch/*
 !/scratch/README.md

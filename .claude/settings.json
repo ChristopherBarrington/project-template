@@ -4,17 +4,18 @@
 		"deny": [
 			"Read(**/private/**)",
 			"Read(!**/private/**/README.md)",
-			"Read(working/**/inputs/**/*.*)"
+			"Read(**/working/**/inputs/**/*.*)"
 		],
 		"ask": [
 			"Bash(apptainer:*)",
 			"Bash(git checkout:*)",
+			"Bash(git merge:*)",
 			"Bash(git switch:*)",
 			"Bash(sbatch:*)",
 			"Bash(singularity:*)",
 			"Bash(srun:*)",
-			"Read(working/**/inputs/**)",
-			"Read(working/**/outputs/**)"
+			"Read(**/working/**/inputs/**)",
+			"Read(**/working/**/outputs/**)"
 		]
 	},
 	"sandbox": {

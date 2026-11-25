@@ -27,8 +27,15 @@ Reads are denied deliberately by `.claude/settings.json`. If a read is denied, s
 - Write scripts for the user to run. Run a script on the project's data, or submit it to the cluster, only when the user approves that run. Approval for one run does not cover the next.
 - Do not commit data, credentials or large binary files; only READMEs and small text files such as sample sheets or manifests are tracked from `data/`.
 
-## Branches
+## Branches and worktrees
 
-- Commit to the branch that is checked out. Do not create or switch branches unless the user asks. This rule overrides any user-level rule to commit on a separate branch.
-- Analyses run from the checkout, some for days. Switching branches removes the tracked scripts of any analysis that is not on the new branch, so a running job can lose its scripts and its outputs are left beside a directory with no code.
-- `git switch` and `git checkout` ask for approval in `.claude/settings.json`.
+- The main checkout stays on `main` and is never switched to another branch.
+- Analyses run from the main checkout, some for days. Switching branches removes the tracked scripts of any analysis that is not on the new branch, so a running job can lose its scripts and its outputs are left beside a directory with no code. Bash reads a script as it runs, so a change to the `run.sh` of a running analysis can also alter the job.
+- Make every change, including a plan, in a worktree on a `<topic>@claude` branch. A worktree is a second working tree of the same repository, checked out on its own branch.
+- Worktrees live in `.worktrees/<topic>/` at the project root, which git ignores. Create one from the project root with `git worktree add -b <topic>@claude .worktrees/<topic> main`.
+- The user merges the branch in the main checkout. Never merge a change into the directory of an analysis that is running.
+- Remove a worktree with `git worktree remove .worktrees/<topic>` only after its branch is merged. Its untracked files, including test outputs, are deleted with it.
+- Start a real run (a run on the project's data, not a test) only from the main checkout, never from a worktree. A worktree's untracked outputs are lost when the worktree is removed.
+- A worktree holds only tracked files. Code run in a worktree reads data, software and scratch from the main checkout by absolute path.
+- Run records may be committed on `main` in the main checkout. A run record is the parameters file that a real run writes in its analysis directory, by convention `etc/parameters.tsv`. Commit nothing else on `main`.
+- `git switch`, `git checkout` and `git merge` ask for approval in `.claude/settings.json`.
