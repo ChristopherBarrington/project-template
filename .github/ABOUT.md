@@ -4,12 +4,10 @@ This directory contains GitHub-specific files that control how the repository be
 
 ## Contents
 
-| Path                                | Purpose                                                          |
-| :---------------------------------- | :--------------------------------------------------------------- |
-| `ABOUT.md`                          | Because README.md would render on the landing page               |
-| `CONTRIBUTING.md`                   | Guidelines for contributors: branching and commit style          |
-| `ISSUE_TEMPLATE/bug_report.md`      | Template for reporting bugs                                      |
-| `ISSUE_TEMPLATE/feature_request.md` | Template for requesting new features or enhancements             |
+| Path              | Purpose                                                 |
+| :---------------- | :------------------------------------------------------ |
+| `ABOUT.md`        | Because README.md would render on the landing page      |
+| `CONTRIBUTING.md` | Guidelines for contributors: branching and commit style |
 
 ## Project template
 

@@ -5,7 +5,6 @@ Thank you for taking the time to contribute. Please read the guidelines below be
 ## Reporting issues
 
 - Search existing issues before opening a new one to avoid duplicates.
-- Use the appropriate issue template (bug report or feature request).
 - Provide as much detail as possible, including steps to reproduce and environment information.
 
 ## Branching
