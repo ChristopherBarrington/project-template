@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for taking the time to contribute. Please read the guidelines below before opening an issue or submitting a pull request.
+Thank you for taking the time to contribute. Please read the guidelines below before opening an issue or making changes.
 
 ## Reporting issues
 
@@ -22,14 +22,6 @@ Thank you for taking the time to contribute. Please read the guidelines below be
   - `feat: add FastQC step to QC workflow`
   - `docs: update usage instructions`
 - Do not commit sensitive data, credentials, or large binary files.
-
-## Pull requests
-
-- Open a pull request against `main`.
-- Fill in the pull request template fully.
-- Link the relevant issue in the PR description using `Closes #<issue>`.
-- Request a review from the appropriate team or codeowner.
-- Ensure all CI checks pass before requesting a review.
 
 ## Code style
 
