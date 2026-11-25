@@ -27,4 +27,4 @@ __Post any (general) notes for the project here.__
 ## Appendix
 
 - More information describing project structure can be found in [ABOUT.md](.github/ABOUT.md)
-- The Data and Analyses tables are filled from the `summary` in the frontmatter of READMEs in `data/` and `working/` by the `update-readme-tables` skill, which runs [update-readme-tables.sh](.claude/skills/update-readme-tables/update-readme-tables.sh). Do not edit between the markers.
+- The Data and Analyses tables are filled from the `summary` in the frontmatter of READMEs in `data/` and `working/` by the `update-readme-tables` skill, which runs [update-readme-tables.sh](.claude/skills/update-readme-tables/scripts/update-readme-tables.sh). Do not edit between the markers.
