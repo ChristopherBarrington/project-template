@@ -2,11 +2,11 @@
 
 Optional. Package environments that a package manager resolves from a recipe or lockfile, kept in a subdirectory per manager:
 
-| Path     | Contents                                                                    |
-| :------- | :-------------------------------------------------------------------------- |
-| `conda/` | Conda environment files (`*.yaml`), and the environments built from them    |
-| `renv/`  | `renv.lock` for R, and the `.Rprofile` and `renv/` that renv writes from it |
-| `uv/`    | `pyproject.toml`, `uv.lock` and `.python-version` for Python                |
+| Path     | Contents                                                                        |
+| :------- | :------------------------------------------------------------------------------ |
+| `conda/` | Conda `*.yaml` and `*_linux-64.txt` files, and the environments built from them |
+| `renv/`  | `renv.lock` for R, and the `.Rprofile` and `renv/` that renv writes from it     |
+| `uv/`    | `pyproject.toml`, `uv.lock` and `.python-version` for Python                    |
 
 Only recipes, lockfiles and their configuration are tracked; built environments and package libraries are ignored.
 
